@@ -3,78 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator Quote Assembler</title>
+    <title>Operator Quote Generator</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Operator Quote Assembler</h1>
-    <form id="quoteForm">
-        <h2>Operator Selection</h2>
-        <!-- Handing Selection with Bubble Selectors -->
-        <label>Handing/Pair:</label><br>
-        <input type="radio" name="handing" value="RH" id="handingRH">
-        <label for="handingRH" class="bubble">RH</label>
-        
-        <input type="radio" name="handing" value="LH" id="handingLH">
-        <label for="handingLH" class="bubble">LH</label>
-        
-        <input type="radio" name="handing" value="Pair" id="handingPair">
-        <label for="handingPair" class="bubble">Pair</label><br><br>
+    <h1>Operator Quote Generator</h1>
 
-        <!-- Finish Selection with Bubble Selectors -->
-        <label>Finish:</label><br>
-        <input type="radio" name="finish" value="Dark Bronze" id="finishBronze">
-        <label for="finishBronze" class="bubble">Dark Bronze</label>
-        
-        <input type="radio" name="finish" value="Anodized Aluminum" id="finishAluminum">
-        <label for="finishAluminum" class="bubble">Anodized Aluminum</label><br><br>
+    <div class="container">
+        <div id="operatorContainer">
+            <h2>Operators</h2>
+            <div class="operator-section" id="operatorSection1">
+                <div class="operator-item">
+                    <label>Handing/Pair:</label><br>
+                    <input type="radio" name="handing1" value="RH" id="handingRH1">
+                    <label for="handingRH1" class="bubble">RH</label>
+                    <input type="radio" name="handing1" value="LH" id="handingLH1">
+                    <label for="handingLH1" class="bubble">LH</label>
+                    <input type="radio" name="handing1" value="Pair" id="handingPair1">
+                    <label for="handingPair1" class="bubble">Pair</label>
+                </div>
+                
+                <div class="operator-item">
+                    <label>Finish:</label><br>
+                    <input type="radio" name="finish1" value="Dark Bronze" id="finishBronze1">
+                    <label for="finishBronze1" class="bubble">Dark Bronze</label>
+                    <input type="radio" name="finish1" value="Anodized Aluminum" id="finishAluminum1">
+                    <label for="finishAluminum1" class="bubble">Anodized Aluminum</label>
+                </div>
+                
+                <div class="operator-item">
+                    <label>Arm Type:</label><br>
+                    <input type="radio" name="armType1" value="Push" id="armPush1">
+                    <label for="armPush1" class="bubble">Push Arm / Outswing</label>
+                    <input type="radio" name="armType1" value="Pull" id="armPull1">
+                    <label for="armPull1" class="bubble">Pull Arm / Inswing</label>
+                </div>
 
-        <!-- Arm Type Selection with Bubble Selectors -->
-        <label>Arm Type:</label><br>
-        <input type="radio" name="armType" value="Push" id="armPush">
-        <label for="armPush" class="bubble">Push Arm / Outswing</label>
-        
-        <input type="radio" name="armType" value="Pull" id="armPull">
-        <label for="armPull" class="bubble">Pull Arm / Inswing</label><br><br>
+                <div class="operator-item">
+                    <label for="doorWidth1">Enter Door Width (in inches):</label>
+                    <input type="number" id="doorWidth1" placeholder="e.g., 36" min="1"><br><br>
+                </div>
 
-        <!-- Door Width Input -->
-        <label for="doorWidth">Enter Door Width (in inches):</label>
-        <input type="number" id="doorWidth" placeholder="e.g., 36" min="1"><br><br>
+                <div class="operator-item">
+                    <label for="quantity1">Quantity:</label>
+                    <input type="number" id="quantity1" value="1" min="1"><br><br>
+                </div>
+            </div>
+        </div>
 
-    <h2>Switches</h2>
-    
-    <!-- Standard Handicap Switches Quantities -->
-    <label for="squareSwitchQty">Square Switches:</label>
-    <input type="number" id="squareSwitchQty" min="0" placeholder="Enter quantity"><br><br>
-    
-    <label for="roundSwitchQty">Round Switches:</label>
-    <input type="number" id="roundSwitchQty" min="0" placeholder="Enter quantity"><br><br>
-    
-    <label for="mullionSwitchQty">Mullion Switches:</label>
-    <input type="number" id="mullionSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+        <button onclick="addOperator()">Add More Operator</button>
 
-    <!-- Weatherproof Handicap Switches Quantities -->
-    <label for="weatherproofSquareSwitchQty">Weatherproof Square Switches:</label>
-    <input type="number" id="weatherproofSquareSwitchQty" min="0" placeholder="Enter quantity"><br><br>
-    
-    <label for="weatherproofRoundSwitchQty">Weatherproof Round Switches:</label>
-    <input type="number" id="weatherproofRoundSwitchQty" min="0" placeholder="Enter quantity"><br><br>
-    
-    <label for="weatherproofMullionSwitchQty">Weatherproof Mullion Switches:</label>
-    <input type="number" id="weatherproofMullionSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+        <h2>Switches and Receivers</h2>
+        <div class="switch-container">
+            <div class="switch-item">
+                <label for="4S1U4">Square Switch Quantity:</label>
+                <input type="number" id="4S1U4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="W4S1U4">Weatherproof Square Switch Quantity:</label>
+                <input type="number" id="W4S1U4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="4R1U4">Round Switch Quantity:</label>
+                <input type="number" id="4R1U4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="W4R1U4">Weatherproof Round Switch Quantity:</label>
+                <input type="number" id="W4R1U4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="J01J4">Mullion Switch Quantity:</label>
+                <input type="number" id="J01J4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="WJ01J4">Weatherproof Mullion Switch Quantity:</label>
+                <input type="number" id="WJ01J4" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="233804">Standard Receiver Quantity:</label>
+                <input type="number" id="233804" min="0" value="0">
+            </div>
+            <div class="switch-item">
+                <label for="235215">Vestibule Sequencer Quantity:</label>
+                <input type="number" id="235215" min="0" value="0">
+            </div>
+        </div>
 
-    <!-- Receiver Type Selection -->
-    <label>Receiver Type:</label><br>
-    <input type="radio" name="receiver" value="Standard Receiver" id="standardReceiver">
-    <label for="standardReceiver" class="bubble">Standard Receiver</label>
-    <input type="radio" name="receiver" value="Vestibule Sequencer" id="vestibuleSequencer">
-    <label for="vestibuleSequencer" class="bubble">Vestibule Sequencer</label><br><br>
+        <button onclick="generateQuote()">Generate Quote</button>
 
-    <button type="button" onclick="generateQuote()">Generate Quote</button>
-    </form>
-
-    <div id="quoteOutput"></div>
-
-    <script src="script.js"></script>
+        <h2>Quote Output</h2>
+        <div id="quoteOutput"></div>
+    </div>
 </body>
 </html>
