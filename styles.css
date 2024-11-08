@@ -1,4 +1,4 @@
-/* styles.css */
+/* General Layout and Body Styling */
 body {
     font-family: Arial, sans-serif;
     display: flex;
@@ -11,15 +11,17 @@ h1 {
     color: #333;
 }
 
+/* Form Container Styling */
 form {
     margin-bottom: 20px;
-    max-width: 300px; /* Smaller form width for compactness */
+    max-width: 300px; /* Keep the compact width for the form */
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
 }
 
+/* Label and Bubble Button Styling */
 label.bubble {
     display: inline-block;
     padding: 10px 15px;
@@ -34,13 +36,13 @@ input[type="radio"] {
     display: none; /* Hide the actual radio button */
 }
 
-/* Styling for the selected bubble */
 input[type="radio"]:checked + label.bubble {
     background-color: #4CAF50;
     color: white;
     border-color: #4CAF50;
 }
 
+/* Number Input Field Styling */
 input[type="number"] {
     width: 100%;
     padding: 8px;
@@ -49,6 +51,7 @@ input[type="number"] {
     border-radius: 5px;
 }
 
+/* Button Styling */
 button {
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -63,6 +66,7 @@ button:hover {
     background-color: #45a049;
 }
 
+/* Quote Output Area Styling */
 #quoteOutput {
     margin-top: 20px;
     font-size: 1.2em;
@@ -71,7 +75,7 @@ button:hover {
     white-space: pre-line;
 }
 
-/* Align all options on separate lines */
+/* Form Elements Spacing */
 form label {
     display: block;
     margin-bottom: 5px;
@@ -89,7 +93,7 @@ form input[type="number"] {
     border: 1px solid #ddd;
 }
 
-/* Apply same bubble effect to radio buttons in switches section */
+/* Switch Container Styling */
 .switch-container label.bubble {
     display: inline-block;
     padding: 10px 15px;
@@ -98,12 +102,6 @@ form input[type="number"] {
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.2s, color 0.2s;
-}
-
-input[type="radio"]:checked + label.bubble {
-    background-color: #4CAF50;
-    color: white;
-    border-color: #4CAF50;
 }
 
 .switch-item {
@@ -115,14 +113,76 @@ input[type="radio"]:checked + label.bubble {
     margin-bottom: 10px;
 }
 
-/* Ensuring proper spacing and alignment for switch quantity inputs */
 .switch-container input[type="number"] {
     margin: 5px 0 10px;
 }
 
-/* Align Switches and Receivers with similar spacing as the operator section */
 .switch-container {
     width: 100%;
-    max-width: 300px; /* Same as the form width */
+    max-width: 300px;
     padding: 10px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    form {
+        max-width: 100%; /* Allow form to adjust within the container */
+        padding: 15px;
+    }
+
+    .switch-container {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+    }
+
+    label.bubble {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    #quoteOutput {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+
+    form {
+        max-width: 100%; /* Ensure form doesn't go beyond the screen width */
+        padding: 12px;
+    }
+
+    input[type="number"] {
+        padding: 10px;
+    }
+
+    label.bubble {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px 20px;
+    }
+
+    #quoteOutput {
+        font-size: 0.9em;
+    }
 }
