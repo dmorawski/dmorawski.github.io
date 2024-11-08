@@ -1,1 +1,80 @@
-Hello WOrld
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operator Quote Assembler</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Operator Quote Assembler</h1>
+    <form id="quoteForm">
+        <h2>Operator Selection</h2>
+        <!-- Handing Selection with Bubble Selectors -->
+        <label>Handing/Pair:</label><br>
+        <input type="radio" name="handing" value="RH" id="handingRH">
+        <label for="handingRH" class="bubble">RH</label>
+        
+        <input type="radio" name="handing" value="LH" id="handingLH">
+        <label for="handingLH" class="bubble">LH</label>
+        
+        <input type="radio" name="handing" value="Pair" id="handingPair">
+        <label for="handingPair" class="bubble">Pair</label><br><br>
+
+        <!-- Finish Selection with Bubble Selectors -->
+        <label>Finish:</label><br>
+        <input type="radio" name="finish" value="Dark Bronze" id="finishBronze">
+        <label for="finishBronze" class="bubble">Dark Bronze</label>
+        
+        <input type="radio" name="finish" value="Anodized Aluminum" id="finishAluminum">
+        <label for="finishAluminum" class="bubble">Anodized Aluminum</label><br><br>
+
+        <!-- Arm Type Selection with Bubble Selectors -->
+        <label>Arm Type:</label><br>
+        <input type="radio" name="armType" value="Push" id="armPush">
+        <label for="armPush" class="bubble">Push Arm / Outswing</label>
+        
+        <input type="radio" name="armType" value="Pull" id="armPull">
+        <label for="armPull" class="bubble">Pull Arm / Inswing</label><br><br>
+
+        <!-- Door Width Input -->
+        <label for="doorWidth">Enter Door Width (in inches):</label>
+        <input type="number" id="doorWidth" placeholder="e.g., 36" min="1"><br><br>
+
+    <h2>Switches</h2>
+    
+    <!-- Standard Handicap Switches Quantities -->
+    <label for="squareSwitchQty">Square Switches:</label>
+    <input type="number" id="squareSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+    
+    <label for="roundSwitchQty">Round Switches:</label>
+    <input type="number" id="roundSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+    
+    <label for="mullionSwitchQty">Mullion Switches:</label>
+    <input type="number" id="mullionSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+
+    <!-- Weatherproof Handicap Switches Quantities -->
+    <label for="weatherproofSquareSwitchQty">Weatherproof Square Switches:</label>
+    <input type="number" id="weatherproofSquareSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+    
+    <label for="weatherproofRoundSwitchQty">Weatherproof Round Switches:</label>
+    <input type="number" id="weatherproofRoundSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+    
+    <label for="weatherproofMullionSwitchQty">Weatherproof Mullion Switches:</label>
+    <input type="number" id="weatherproofMullionSwitchQty" min="0" placeholder="Enter quantity"><br><br>
+
+    <!-- Receiver Type Selection -->
+    <label>Receiver Type:</label><br>
+    <input type="radio" name="receiver" value="Standard Receiver" id="standardReceiver">
+    <label for="standardReceiver" class="bubble">Standard Receiver</label>
+    <input type="radio" name="receiver" value="Vestibule Sequencer" id="vestibuleSequencer">
+    <label for="vestibuleSequencer" class="bubble">Vestibule Sequencer</label><br><br>
+
+    <button type="button" onclick="generateQuote()">Generate Quote</button>
+    </form>
+
+    <div id="quoteOutput"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
