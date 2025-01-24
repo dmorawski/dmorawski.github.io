@@ -23,6 +23,63 @@ window.addEventListener('DOMContentLoaded', () => {
 
 let operatorCount = 1;
 
+// This will hold pricing data once the CSV is fetched
+let pricingData = {
+    operatorPricingInfo: {},
+    powerSupplyPricingInfo: {},
+    bollardPricingInfo: {},
+    switchPricingInfo: {}
+};
+
+// Fetch the pricing data from the CSV file
+async function fetchPricingData() {
+    const response = await fetch('https://dmorawski.github.io/pricing.csv');
+    const csvText = await response.text();
+    
+    const parsedData = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+    
+    parsedData.data.forEach(row => {
+        // Check if it's a product category (you can replace with your own logic)
+        // Adjust according to the CSV structure: "Manufacturer Part Number", "Price", "Short Number"
+        
+        const partNumber = row['Manufacturer Part Number'];
+        const shortCode = row['Short Number'];
+        const price = parseFloat(row['Price']) || 0;
+
+        // Add operator pricing info
+        if (row['Description'].toLowerCase().includes('operator')) {
+            pricingData.operatorPricingInfo[partNumber] = {
+                shortCode,
+                price
+            };
+        }
+        // Add power supply pricing info
+        else if (row['Description'].toLowerCase().includes('power supply')) {
+            pricingData.powerSupplyPricingInfo[partNumber] = {
+                shortCode,
+                price
+            };
+        }
+        // Add bollard pricing info
+        else if (row['Description'].toLowerCase().includes('bollard')) {
+            pricingData.bollardPricingInfo[partNumber] = {
+                shortCode,
+                price
+            };
+        }
+        // Add switch pricing info
+        else if (row['Description'].toLowerCase().includes('switch')) {
+            pricingData.switchPricingInfo[partNumber] = {
+                shortCode,
+                price
+            };
+        }
+    });
+}
+
+// Initialize pricing data when the page loads
+window.addEventListener('DOMContentLoaded', fetchPricingData);
+
 function addOperator() {
     operatorCount++;
     const operatorSection = document.createElement('div');
@@ -78,77 +135,7 @@ function generateQuote() {
         }
     }
 
-    // Operator pricing and short codes from CSV
-const operatorPricingInfo = {
-    "LP1C-72": { shortCode: "MOT1029", price: 4530.0 },
-    "MA-END-PLATES": { shortCode: "MOT1038", price: 46.66 },
-    "MA-GND-ASM": { shortCode: "MOT1040", price: 56.33 },
-    "MA-PUSH-LH-DBZ": { shortCode: "MOT1039", price: 0.0 },
-    "MA40011": { shortCode: "MOT1032", price: 83.09 },
-    "MA50777T-L": { shortCode: "MOT1033", price: 960.61 },
-    "MA50782": { shortCode: "MOT1043", price: 15.76 },
-    "MA81000-901": { shortCode: "MOT1037", price: 1135.08 },
-    "MA81000-902": { shortCode: "MOT1028", price: 1080.0 },
-    "MA83000-901": { shortCode: "MOT1041", price: 1254.0 },
-    "MAC-LL1C-36": { shortCode: "MOT1017", price: 2300.0 },
-    "MAC-LL1C-XX": { shortCode: "MOT1008", price: 2300.0 },
-    "MAC-LL1D-36": { shortCode: "MOT1016", price: 2300.0 },
-    "MAC-LL1D-XX": { shortCode: "MOT1012", price: 2300.0 },
-    "MAC-LL2C-36": { shortCode: "MOT1020", price: 2300.0 },
-    "MAC-LL2C-XX": { shortCode: "MOT1009", price: 2300.0 },
-    "MAC-LL2D-36": { shortCode: "MOT1022", price: 2300.0 },
-    "MAC-LL2D-XX": { shortCode: "MOT1013", price: 2300.0 },
-    "MAC-LL3C-XX": { shortCode: "MOT1010", price: 2300.0 },
-    "MAC-LL3D-XX": { shortCode: "MOT1014", price: 2300.0 },
-    "MAC-LL4C-XX": { shortCode: "MOT1011", price: 2300.0 },
-    "MAC-LL4D-XX": { shortCode: "MOT1015", price: 2300.0 },
-    "MAC-LP1C-XX": { shortCode: "MOT1025", price: 4688.87 },
-    "MAC-LP1D-72": { shortCode: "MOT1024", price: 4688.87 },
-    "MAC-LR1C-36": { shortCode: "MOT1019", price: 2300.0 },
-    "MAC-LR1C-42": { shortCode: "MOT1026", price: 2300.0 },
-    "MAC-LR1C-XX": { shortCode: "MOT1000", price: 2300.0 },
-    "MAC-LR1D-36": { shortCode: "MOT1018", price: 2300.0 },
-    "MAC-LR1D-XX": { shortCode: "MOT1004", price: 2300.0 },
-    "MAC-LR2C-36": { shortCode: "MOT1021", price: 2300.0 },
-    "MAC-LR2C-XX": { shortCode: "MOT1001", price: 2300.0 },
-    "MAC-LR2D-36": { shortCode: "MOT1023", price: 2300.0 },
-    "MAC-LR2D-XX": { shortCode: "MOT1005", price: 2300.0 },
-    "MAC-LR3C-36": { shortCode: "MOT1002", price: 2300.0 },
-    "MAC-LR3D-XX": { shortCode: "MOT1006", price: 2300.0 },
-    "MAC-LR4C-XX": { shortCode: "MOT1003", price: 2300.0 },
-    "MAC-LR4D-XX": { shortCode: "MOT1007", price: 2300.0 },
-    "MAR-C-18": { shortCode: "MOT1034", price: 1957.95 },
-    "MAR-C-29": { shortCode: "MOT1027", price: 1890.0 },
-    "MAR-D-18": { shortCode: "MOT1035", price: 1957.95 },
-    "MAR-D-29": { shortCode: "MOT1036", price: 2103.91 },
-    "MAX-KIT-S1": { shortCode: "MOT1030", price: 338.42 },
-    "MP1C-72": { shortCode: "MOT1031", price: 4761.03 },
-    "MR1D-36": { shortCode: "MOT1042", price: 2300.0 }
-};
-
-
-    const powerSupplyPricingInfo = {
-        "LRS-75-24": { shortCode: "MEW1000", price: 27.28 },
-        "LRS-75-12": { shortCode: "MEW1001", price: 33.63 }
-    };
-
-    const bollardPricingInfo = {
-        "CM-42-BSU-BRZ": { shortCode: "CAM1002", price: 440 },
-        "CM-42-BSU-CLR": { shortCode: "CAM1040", price: 440 }
-    };
-
-    const switchPricingInfo = {
-        "4S1U4": { shortCode: "LAR1079", price: 158 },
-        "W4S1U4": { shortCode: "LAR1082", price: 191.28 },
-        "4R1U4": { shortCode: "LAR1069", price: 158 },
-        "W4R1U4": { shortCode: "LAR1070", price: 182 },
-        "J01J4": { shortCode: "LAR1016", price: 124 },
-        "WJ01J4": { shortCode: "LAR1017", price: 148 },
-        "233804": { shortCode: "LAR1015", price: 75 },
-        "235215": { shortCode: "LAR1014", price: 87 }
-    };
-
-    // Generate operator part numbers
+    // Add operators
     for (let i = 1; i <= operatorCount; i++) {
         const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
         const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
@@ -167,7 +154,7 @@ const operatorPricingInfo = {
         const widthCode = doorWidth === "36" ? "-36" : "-XX";
         const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
 
-        const operatorData = operatorPricingInfo[operatorPartNumber] || { shortCode: "NA", price: 2300 };
+        const operatorData = pricingData.operatorPricingInfo[operatorPartNumber] || { shortCode: "NA", price: 2300 };
         addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
 
         const laborPrice = 178;
@@ -175,8 +162,20 @@ const operatorPricingInfo = {
         addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
     }
 
-    // Add power supplies, switches, and bollards
-    [powerSupplyPricingInfo, switchPricingInfo, bollardPricingInfo].forEach(pricingInfo => {
+    // Add bollard pricing and labor for bollards
+    Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+        const bollardQuantity = parseInt(document.getElementById(partNumber)?.value) || 0;
+        if (bollardQuantity > 0) {
+            addOrUpdatePart(partNumber, shortCode, price, bollardQuantity);
+
+            // Add labor for bollards (1 hour per bollard)
+            const laborBollardPrice = 178; // Labor price per bollard (same as before)
+            addOrUpdatePart("Labor", "SC104", laborBollardPrice, bollardQuantity); // Add labor with the same part number
+        }
+    });
+
+    // Add switches, power supplies, etc.
+    [pricingData.powerSupplyPricingInfo, pricingData.switchPricingInfo].forEach(pricingInfo => {
         Object.entries(pricingInfo).forEach(([partNumber, { shortCode, price }]) => {
             const quantityInput = document.getElementById(partNumber);
             const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
