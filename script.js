@@ -33,7 +33,8 @@ let pricingData = {
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const response = await fetch('https://dmorawski.github.io/pricing.csv');
+    const url = 'https://dmorawski.github.io/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    const response = await fetch(url);
     const csvText = await response.text();
     
     const parsedData = Papa.parse(csvText, { header: true, skipEmptyLines: true });
@@ -76,6 +77,7 @@ async function fetchPricingData() {
         }
     });
 }
+
 
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
