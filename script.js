@@ -142,7 +142,7 @@ function generateQuote() {
                 addOrUpdatePart(partNumber, shortCode, price, quantity);
 
                 // If this part is a bollard, add labor for each bollard
-                if (partNumber.includes("Bollard")) {  // Check if partNumber is a bollard
+                if (partNumber.includes("CM-42-BSU")) {  // Check if partNumber is a bollard
                     addOrUpdatePart("Labor", "SC104", 178, quantity);  // One labor unit for each bollard
                 }
             }
