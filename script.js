@@ -48,7 +48,6 @@ async function fetchPricingData() {
         // Adjust according to the CSV structure: "Manufacturer Part Number", "Price", "Short Number"
         
         const partNumber = row['Manufacturer Part Number'];
-
         // Log the part number and check for hidden characters
         console.log("Part Number in CSV: ", partNumber);  // This will show you the raw part number
 
@@ -178,12 +177,18 @@ function generateQuote() {
     }
 
     // Add bollards using the same logic as switches and receivers
+
+    const testPartNumber = 'CM-42-BSU-CLR';
+    const bollardInput = document.getElementById(testPartNumber);
+    console.log(`!!!Bollard input element:`, bollardInput); // This should not be null
+
+
 Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
     const bollardInput = document.getElementById(partNumber);
-    console.log(bollardInput);  // Check if the input element is correctly fetched
+    //console.log(bollardInput);  // Check if the input element is correctly fetched
     
     const bollardQuantity = bollardInput ? parseInt(bollardInput.value) || 0 : 0;
-    console.log(`Bollard ${partNumber} Quantity: `, bollardQuantity);  // Check if the quantity is 0 or a valid number
+    //console.log(`Bollard ${partNumber} Quantity: `, bollardQuantity);  // Check if the quantity is 0 or a valid number
     
     if (bollardQuantity > 0) {
         addOrUpdatePart(partNumber, shortCode, price, bollardQuantity);
