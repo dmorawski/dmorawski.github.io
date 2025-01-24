@@ -123,6 +123,29 @@ form input[type="number"] {
     padding: 10px;
 }
 
+.bollard-container {
+    width: 100%;
+    max-width: 300px; /* Align width with other sections */
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.bollard-item {
+    margin-bottom: 15px;
+}
+
+.power-supply-container {
+    width: 100%;
+    max-width: 300px; /* Align width with other sections */
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.power-supply-item {
+    margin-bottom: 15px;
+}
+
+
 /* Table Styling - Ensuring it's responsive */
 table {
     width: 100%;

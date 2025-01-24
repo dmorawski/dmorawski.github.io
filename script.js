@@ -55,8 +55,20 @@ function generateQuote() {
         }
     }
 
+    // Pricing and short codes for Power Supplies
+    const powerSupplyPricingInfo = {
+        "LRS-75-24": { shortCode: "MEW1000", price: 27.28 },
+        "LRS-75-12": { shortCode: "MEW1001", price: 33.63 }
+    };
+
+    // Pricing and short codes for Bollards
+    const bollardPricingInfo = {
+        "CM-42-BSU-BRZ": { shortCode: "CAM1002", price: 440 },
+        "CM-42-BSU-CLR": { shortCode: "CAM1040", price: 440 }
+    };
+
     // Pricing and short codes for switches and receivers
-    const pricingInfo = {
+    const switchPricingInfo = {
         "4S1U4": { shortCode: "LAR1079", price: 158 },
         "W4S1U4": { shortCode: "LAR1082", price: 191.28 },
         "4R1U4": { shortCode: "LAR1069", price: 158 },
@@ -75,26 +87,29 @@ function generateQuote() {
         const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
         const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
 
-        if (handing && finish && armType && doorWidth) {
-            let handingCode = handing === 'LH' ? 'L' : handing === 'RH' ? 'R' : 'P';
-            const armCode = armType === 'Push' ? '1' : '2';
-            const finishCode = finish === 'Anodized Aluminum' ? 'C' : 'D';
-            const widthCode = doorWidth === '36' ? '-36' : (handing === 'Pair' && doorWidth === '72') ? '-72' : '-XX';
-            const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
-
-            const price = handing === 'Pair' ? 4688.86 : 2300;
-            const shortCode = "NA";
-            addOrUpdatePart(operatorPartNumber, shortCode, price, quantity);
-
-            // Add labor based on the operator type (RH/LH = 6 hours, Pair = 10 hours)
-            const laborPrice = 178;
-            const laborQuantity = handing === 'Pair' ? 10 * quantity : 6 * quantity;
-            addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
+        // Validate required fields for operators
+        if (!handing || !finish || !armType || !doorWidth) {
+            alert(`Please complete all fields for Operator ${i}`);
+            return;
         }
+
+        const handingCode = handing === 'LH' ? 'L' : handing === 'RH' ? 'R' : 'P';
+        const armCode = armType === 'Push' ? '1' : '2';
+        const finishCode = finish === 'Anodized Aluminum' ? 'C' : 'D';
+        const widthCode = doorWidth === '36' ? '-36' : (handing === 'Pair' && doorWidth === '72') ? '-72' : '-XX';
+        const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
+
+        const price = handing === 'Pair' ? 4688.86 : 2300;
+        addOrUpdatePart(operatorPartNumber, "NA", price, quantity);
+
+        // Add labor based on the operator type
+        const laborPrice = 178;
+        const laborQuantity = handing === 'Pair' ? 10 * quantity : 6 * quantity;
+        addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
     }
 
-    // Add switches and receivers from the fixed pricing info
-    Object.entries(pricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+    // Add power supplies to parts list
+    Object.entries(powerSupplyPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
         const quantityInput = document.getElementById(partNumber);
         const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
         if (quantity > 0) {
@@ -102,17 +117,27 @@ function generateQuote() {
         }
     });
 
-    // Add labor as the last part
-    const laborPart = partsList.find(part => part.partNumber === "Labor");
-    if (laborPart) {
-        // Remove the labor item from its original position if already added
-        const laborIndex = partsList.indexOf(laborPart);
-        if (laborIndex > -1) {
-            partsList.splice(laborIndex, 1);
+    // Add switches and receivers to parts list
+    Object.entries(switchPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+        const quantityInput = document.getElementById(partNumber);
+        const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
+        if (quantity > 0) {
+            addOrUpdatePart(partNumber, shortCode, price, quantity);
         }
-        // Add labor to the end of the list
-        partsList.push(laborPart);
-    }
+    });
+
+    // Add bollards and labor for bollards to parts list
+    Object.entries(bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+        const quantityInput = document.getElementById(partNumber);
+        const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
+        if (quantity > 0) {
+            addOrUpdatePart(partNumber, shortCode, price, quantity);
+
+            // Add labor for bollards (1 hour per bollard)
+            const laborPrice = 178;
+            addOrUpdatePart("Labor", "SC104", laborPrice, quantity);
+        }
+    });
 
     // Clear previous output and create table
     const output = document.getElementById('quoteOutput');
