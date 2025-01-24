@@ -5,20 +5,26 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    background-color: #ffffff;
+    color: #333;
+    font-size: 16px; /* Default font size for consistency */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1 {
     color: #333;
+    transition: color 0.3s ease;
 }
 
 /* Form Container Styling */
 form {
     margin-bottom: 20px;
-    max-width: 300px; /* Keep the compact width for the form */
+    max-width: 300px;
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background-color: #f9f9f9;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Label and Bubble Button Styling */
@@ -29,7 +35,7 @@ label.bubble {
     border: 2px solid #ddd;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 input[type="radio"] {
@@ -49,6 +55,7 @@ input[type="number"] {
     margin: 5px 0 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Button Styling */
@@ -60,10 +67,12 @@ button {
     border-radius: 5px;
     cursor: pointer;
     margin-top: 20px;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #4cb052;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
 }
 
 /* Quote Output Area Styling */
@@ -71,8 +80,31 @@ button:hover {
     margin-top: 20px;
     font-size: 1.2em;
     color: #555;
-    font-weight: bold;
     white-space: pre-line;
+    transition: color 0.3s ease;
+}
+
+/* Table header styling */
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold; /* Ensure the header row is bold */
+    color: #333; /* Darker text color for better contrast */
+    text-align: left; /* Align text to the left */
+}
+
+/* Table cell styling */
+table td {
+    font-weight: normal; /* Ensure table cells are not bold */
+    color: #333;
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Bold styling specifically for the total price row */
+table .total-price-row td {
+    font-weight: bold;
 }
 
 /* Form Elements Spacing */
@@ -94,74 +126,36 @@ form input[type="number"] {
 }
 
 /* Switch Container Styling */
-.switch-container label.bubble {
+.switch-container label.bubble,
+.bollard-container label.bubble,
+.power-supply-container label.bubble {
     display: inline-block;
     padding: 10px 15px;
     margin: 5px;
     border: 2px solid #ddd;
     border-radius: 20px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
-.switch-item {
+.switch-item, .bollard-item, .power-supply-item {
     margin-bottom: 15px;
 }
 
-.switch-container label, .switch-container input {
-    display: inline-block;
-    margin-bottom: 10px;
-}
-
-.switch-container input[type="number"] {
-    margin: 5px 0 10px;
-}
-
-.switch-container {
+.switch-container, .bollard-container, .power-supply-container {
     width: 100%;
     max-width: 300px;
     padding: 10px;
-}
-
-.bollard-container {
-    width: 100%;
-    max-width: 300px; /* Align width with other sections */
-    padding: 10px;
     margin-bottom: 20px;
 }
-
-.bollard-item {
-    margin-bottom: 15px;
-}
-
-.power-supply-container {
-    width: 100%;
-    max-width: 300px; /* Align width with other sections */
-    padding: 10px;
-    margin-bottom: 20px;
-}
-
-.power-supply-item {
-    margin-bottom: 15px;
-}
-
 
 /* Table Styling - Ensuring it's responsive */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    table-layout: auto; /* Let the columns auto adjust based on content */
-}
-
-table th, table td {
-    padding: 10px;
-    text-align: left;
-    word-wrap: break-word; /* Prevent text overflow */
-}
-
-table th {
-    background-color: #f2f2f2;
+    table-layout: auto;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Scrollable table on mobile */
@@ -173,7 +167,6 @@ table th {
         -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
     }
 
-    /* Add horizontal scroll for the table container */
     #quoteOutput {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -182,6 +175,7 @@ table th {
     /* Table header responsiveness */
     table th {
         font-size: 12px;
+        font-weight: bold; /* Explicitly set bold for headers */
     }
 
     table td {
@@ -190,12 +184,87 @@ table th {
 }
 
 @media (max-width: 480px) {
-    table th, table td {
-        font-size: 11px; /* Smaller font size on very small screens */
+    table th {
+        font-size: 11px;
         padding: 8px;
+        font-weight: bold;
     }
 
-    table th {
-        font-weight: normal;
+    table td {
+        font-size: 11px;
+        padding: 8px;
     }
 }
+
+/* Dark Mode Styling */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode table th {
+    background-color: #333;
+    color: #cccccc; /* Light font color for header */
+    font-weight: bold;
+    border-color: #555;
+}
+
+body.dark-mode table td {
+    color: #cccccc; /* Light font color for table data */
+    border-color: #555;
+}
+
+/* Theme Toggle Container */
+.theme-toggle-container {
+    position: fixed;
+    top: 10px; /* Distance from the top */
+    right: 10px; /* Distance from the right */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hide the default checkbox */
+.theme-toggle-checkbox {
+    display: none;
+}
+
+/* Switch Label */
+.theme-toggle-label {
+    width: 50px;
+    height: 25px;
+    background-color: #ccc; /* Default background color */
+    border-radius: 25px; /* Rounded edges */
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.3s ease;
+}
+
+/* Ball inside the switch */
+.theme-toggle-ball {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 21px;
+    height: 21px;
+    background-color: white; /* Ball color */
+    border-radius: 50%; /* Make it circular */
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow for the ball */
+}
+
+/* Change background color and move the ball for dark mode */
+.theme-toggle-checkbox:checked + .theme-toggle-label {
+    background-color: #4CAF50; /* Green for dark mode */
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .theme-toggle-ball {
+    transform: translateX(25px); /* Move the ball to the right */
+}
+
+/* Dark Mode Styling */
+body.dark-mode .theme-toggle-label {
+    background-color: #555; /* Darker background in dark mode */
+}
+
+

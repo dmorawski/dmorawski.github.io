@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Operator Quote Generator</title>
+    <title>Quote Generator</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Operator Quote Generator</h1>
-
-    <div class="container">
-        <div id="operatorContainer">
+    <div class="theme-toggle-container">
+        <input type="checkbox" id="toggleTheme" class="theme-toggle-checkbox" />
+        <label for="toggleTheme" class="theme-toggle-label">
+            <span class="theme-toggle-ball"></span>
+        </label>
+    </div>
+    <div id="operatorContainer">
             <h2>Operators</h2>
             <div class="operator-section" id="operatorSection1">
                 <div class="operator-item">
@@ -115,7 +118,6 @@
 
         <button onclick="generateQuote()">Generate Quote</button>
 
-        <h2>Quote Output</h2>
         <div id="quoteOutput"></div>
     </div>
 </body>

@@ -1,3 +1,26 @@
+// Add theme toggling functionality
+document.getElementById('toggleTheme').addEventListener('click', () => {
+    const body = document.body;
+
+    // Toggle the dark-mode class
+    body.classList.toggle('dark-mode');
+
+    // Save the theme preference in localStorage
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('theme', 'dark');
+    } else {
+        localStorage.setItem('theme', 'light');
+    }
+});
+
+// Apply the saved theme on page load
+window.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+});
+
 let operatorCount = 1;
 
 function addOperator() {
@@ -55,19 +78,65 @@ function generateQuote() {
         }
     }
 
-    // Pricing and short codes for Power Supplies
+    // Operator pricing and short codes from CSV
+const operatorPricingInfo = {
+    "LP1C-72": { shortCode: "MOT1029", price: 4530.0 },
+    "MA-END-PLATES": { shortCode: "MOT1038", price: 46.66 },
+    "MA-GND-ASM": { shortCode: "MOT1040", price: 56.33 },
+    "MA-PUSH-LH-DBZ": { shortCode: "MOT1039", price: 0.0 },
+    "MA40011": { shortCode: "MOT1032", price: 83.09 },
+    "MA50777T-L": { shortCode: "MOT1033", price: 960.61 },
+    "MA50782": { shortCode: "MOT1043", price: 15.76 },
+    "MA81000-901": { shortCode: "MOT1037", price: 1135.08 },
+    "MA81000-902": { shortCode: "MOT1028", price: 1080.0 },
+    "MA83000-901": { shortCode: "MOT1041", price: 1254.0 },
+    "MAC-LL1C-36": { shortCode: "MOT1017", price: 2300.0 },
+    "MAC-LL1C-XX": { shortCode: "MOT1008", price: 2300.0 },
+    "MAC-LL1D-36": { shortCode: "MOT1016", price: 2300.0 },
+    "MAC-LL1D-XX": { shortCode: "MOT1012", price: 2300.0 },
+    "MAC-LL2C-36": { shortCode: "MOT1020", price: 2300.0 },
+    "MAC-LL2C-XX": { shortCode: "MOT1009", price: 2300.0 },
+    "MAC-LL2D-36": { shortCode: "MOT1022", price: 2300.0 },
+    "MAC-LL2D-XX": { shortCode: "MOT1013", price: 2300.0 },
+    "MAC-LL3C-XX": { shortCode: "MOT1010", price: 2300.0 },
+    "MAC-LL3D-XX": { shortCode: "MOT1014", price: 2300.0 },
+    "MAC-LL4C-XX": { shortCode: "MOT1011", price: 2300.0 },
+    "MAC-LL4D-XX": { shortCode: "MOT1015", price: 2300.0 },
+    "MAC-LP1C-XX": { shortCode: "MOT1025", price: 4688.87 },
+    "MAC-LP1D-72": { shortCode: "MOT1024", price: 4688.87 },
+    "MAC-LR1C-36": { shortCode: "MOT1019", price: 2300.0 },
+    "MAC-LR1C-42": { shortCode: "MOT1026", price: 2300.0 },
+    "MAC-LR1C-XX": { shortCode: "MOT1000", price: 2300.0 },
+    "MAC-LR1D-36": { shortCode: "MOT1018", price: 2300.0 },
+    "MAC-LR1D-XX": { shortCode: "MOT1004", price: 2300.0 },
+    "MAC-LR2C-36": { shortCode: "MOT1021", price: 2300.0 },
+    "MAC-LR2C-XX": { shortCode: "MOT1001", price: 2300.0 },
+    "MAC-LR2D-36": { shortCode: "MOT1023", price: 2300.0 },
+    "MAC-LR2D-XX": { shortCode: "MOT1005", price: 2300.0 },
+    "MAC-LR3C-36": { shortCode: "MOT1002", price: 2300.0 },
+    "MAC-LR3D-XX": { shortCode: "MOT1006", price: 2300.0 },
+    "MAC-LR4C-XX": { shortCode: "MOT1003", price: 2300.0 },
+    "MAC-LR4D-XX": { shortCode: "MOT1007", price: 2300.0 },
+    "MAR-C-18": { shortCode: "MOT1034", price: 1957.95 },
+    "MAR-C-29": { shortCode: "MOT1027", price: 1890.0 },
+    "MAR-D-18": { shortCode: "MOT1035", price: 1957.95 },
+    "MAR-D-29": { shortCode: "MOT1036", price: 2103.91 },
+    "MAX-KIT-S1": { shortCode: "MOT1030", price: 338.42 },
+    "MP1C-72": { shortCode: "MOT1031", price: 4761.03 },
+    "MR1D-36": { shortCode: "MOT1042", price: 2300.0 }
+};
+
+
     const powerSupplyPricingInfo = {
         "LRS-75-24": { shortCode: "MEW1000", price: 27.28 },
         "LRS-75-12": { shortCode: "MEW1001", price: 33.63 }
     };
 
-    // Pricing and short codes for Bollards
     const bollardPricingInfo = {
         "CM-42-BSU-BRZ": { shortCode: "CAM1002", price: 440 },
         "CM-42-BSU-CLR": { shortCode: "CAM1040", price: 440 }
     };
 
-    // Pricing and short codes for switches and receivers
     const switchPricingInfo = {
         "4S1U4": { shortCode: "LAR1079", price: 158 },
         "W4S1U4": { shortCode: "LAR1082", price: 191.28 },
@@ -79,7 +148,7 @@ function generateQuote() {
         "235215": { shortCode: "LAR1014", price: 87 }
     };
 
-    // Generate operator part numbers and add them to parts list with appropriate prices
+    // Generate operator part numbers
     for (let i = 1; i <= operatorCount; i++) {
         const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
         const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
@@ -87,75 +156,57 @@ function generateQuote() {
         const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
         const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
 
-        // Validate required fields for operators
         if (!handing || !finish || !armType || !doorWidth) {
             alert(`Please complete all fields for Operator ${i}`);
             return;
         }
 
-        const handingCode = handing === 'LH' ? 'L' : handing === 'RH' ? 'R' : 'P';
-        const armCode = armType === 'Push' ? '1' : '2';
-        const finishCode = finish === 'Anodized Aluminum' ? 'C' : 'D';
-        const widthCode = doorWidth === '36' ? '-36' : (handing === 'Pair' && doorWidth === '72') ? '-72' : '-XX';
+        const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
+        const armCode = armType === "Push" ? "1" : "2";
+        const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
+        const widthCode = doorWidth === "36" ? "-36" : "-XX";
         const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
 
-        const price = handing === 'Pair' ? 4688.86 : 2300;
-        addOrUpdatePart(operatorPartNumber, "NA", price, quantity);
+        const operatorData = operatorPricingInfo[operatorPartNumber] || { shortCode: "NA", price: 2300 };
+        addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
 
-        // Add labor based on the operator type
         const laborPrice = 178;
-        const laborQuantity = handing === 'Pair' ? 10 * quantity : 6 * quantity;
+        const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
         addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
     }
 
-    // Add power supplies to parts list
-    Object.entries(powerSupplyPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
-        const quantityInput = document.getElementById(partNumber);
-        const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
-        if (quantity > 0) {
-            addOrUpdatePart(partNumber, shortCode, price, quantity);
-        }
+    // Add power supplies, switches, and bollards
+    [powerSupplyPricingInfo, switchPricingInfo, bollardPricingInfo].forEach(pricingInfo => {
+        Object.entries(pricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+            const quantityInput = document.getElementById(partNumber);
+            const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
+            if (quantity > 0) {
+                addOrUpdatePart(partNumber, shortCode, price, quantity);
+            }
+        });
     });
 
-    // Add switches and receivers to parts list
-    Object.entries(switchPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
-        const quantityInput = document.getElementById(partNumber);
-        const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
-        if (quantity > 0) {
-            addOrUpdatePart(partNumber, shortCode, price, quantity);
-        }
-    });
+    // Sort partsList to ensure labor is last
+    partsList.sort((a, b) => (a.partNumber === "Labor" ? 1 : b.partNumber === "Labor" ? -1 : 0));
 
-    // Add bollards and labor for bollards to parts list
-    Object.entries(bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
-        const quantityInput = document.getElementById(partNumber);
-        const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
-        if (quantity > 0) {
-            addOrUpdatePart(partNumber, shortCode, price, quantity);
-
-            // Add labor for bollards (1 hour per bollard)
-            const laborPrice = 178;
-            addOrUpdatePart("Labor", "SC104", laborPrice, quantity);
-        }
-    });
-
-    // Clear previous output and create table
-    const output = document.getElementById('quoteOutput');
+    // Create table
+    const output = document.getElementById("quoteOutput");
     output.innerHTML = "";
 
-    const table = document.createElement('table');
-    table.setAttribute('border', '1');
-    table.setAttribute('cellpadding', '5');
-    table.style.borderCollapse = 'collapse';
+    const table = document.createElement("table");
+    table.setAttribute("border", "1");
+    table.setAttribute("cellpadding", "5");
+    table.style.borderCollapse = "collapse";
 
-    // Table header
+    // Add header row
     const headerRow = table.insertRow();
     ["Part Number", "Short Code", "Price", "Quantity", "Total Price"].forEach(text => {
         const cell = headerRow.insertCell();
         cell.innerText = text;
+        cell.style.fontWeight = "bold";
     });
 
-    // Populate table rows with parts and quantities, calculate total price
+    // Add parts to table
     partsList.forEach(item => {
         const row = table.insertRow();
         row.insertCell().innerText = item.partNumber;
@@ -168,9 +219,15 @@ function generateQuote() {
 
     // Add total price row
     const totalRow = table.insertRow();
-    totalRow.insertCell().colSpan = 4;
-    totalRow.insertCell().innerText = `Total: $${totalPrice.toFixed(2)}`;
+    const totalLabelCell = totalRow.insertCell();
+    totalLabelCell.colSpan = 4;
+    totalLabelCell.style.textAlign = "right";
+    totalLabelCell.style.fontWeight = "bold";
+    totalLabelCell.innerText = "Total";
 
-    // Append table to output div
+    const totalPriceCell = totalRow.insertCell();
+    totalPriceCell.style.fontWeight = "bold";
+    totalPriceCell.innerText = `$${totalPrice.toFixed(2)}`;
+
     output.appendChild(table);
 }
