@@ -24,12 +24,7 @@ window.addEventListener('DOMContentLoaded', () => {
 let operatorCount = 1;
 
 // This will hold pricing data once the CSV is fetched
-let pricingData = {
-    operatorPricingInfo: {},
-    powerSupplyPricingInfo: {},
-    bollardPricingInfo: {},
-    switchPricingInfo: {}
-};
+let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
@@ -44,52 +39,14 @@ async function fetchPricingData() {
     });
     
     parsedData.data.forEach(row => {
-        // Check if it's a product category (you can replace with your own logic)
-        // Adjust according to the CSV structure: "Manufacturer Part Number", "Price", "Short Number"
-        
         const partNumber = row['Manufacturer Part Number'];
-        // Log the part number and check for hidden characters
-        console.log("Part Number in CSV: ", partNumber);  // This will show you the raw part number
-
-        // Check if there are any unexpected spaces or hidden characters
-        if (partNumber !== partNumber.trim()) {
-            console.log("There are extra spaces or hidden characters in the part number:", partNumber);
-        }
-
         const shortCode = row['Short Number'];
         const price = parseFloat(row['Price']) || 0;
 
-        // Add operator pricing info
-        if (row['Description'].toLowerCase().includes('operator')) {
-            pricingData.operatorPricingInfo[partNumber] = {
-                shortCode,
-                price
-            };
-        }
-        // Add power supply pricing info
-        else if (row['Description'].toLowerCase().includes('power supply')) {
-            pricingData.powerSupplyPricingInfo[partNumber] = {
-                shortCode,
-                price
-            };
-        }
-        // Add bollard pricing info
-        else if (row['Description'].toLowerCase().includes('bollard')) {
-            pricingData.bollardPricingInfo[partNumber] = {
-                shortCode,
-                price
-            };
-        }
-        // Add switch pricing info
-        else if (row['Description'].toLowerCase().includes('switch')) {
-            pricingData.switchPricingInfo[partNumber] = {
-                shortCode,
-                price
-            };
-        }
+        // Add the part number and pricing info directly to the pricingData object
+        pricingData[partNumber] = { shortCode, price };
     });
 }
-
 
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
@@ -168,7 +125,7 @@ function generateQuote() {
         const widthCode = doorWidth === "36" ? "-36" : "-XX";
         const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
 
-        const operatorData = pricingData.operatorPricingInfo[operatorPartNumber] || { shortCode: "NA", price: 2300 };
+        const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: 2300 };
         addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
 
         const laborPrice = 178;
@@ -176,39 +133,18 @@ function generateQuote() {
         addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
     }
 
-    // Add bollards using the same logic as switches and receivers
-
-    const testPartNumber = 'CM-42-BSU-CLR';
-    const bollardInput = document.getElementById(testPartNumber);
-    console.log(`!!!Bollard input element:`, bollardInput); // This should not be null
-
-
-Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
-    const bollardInput = document.getElementById(partNumber);
-    //console.log(bollardInput);  // Check if the input element is correctly fetched
-    
-    const bollardQuantity = bollardInput ? parseInt(bollardInput.value) || 0 : 0;
-    //console.log(`Bollard ${partNumber} Quantity: `, bollardQuantity);  // Check if the quantity is 0 or a valid number
-    
-    if (bollardQuantity > 0) {
-        addOrUpdatePart(partNumber, shortCode, price, bollardQuantity);
-
-        // Add labor for bollards (1 hour per bollard)
-        const laborBollardPrice = 178; // Labor price per bollard (same as before)
-        addOrUpdatePart("Labor", "SC104", laborBollardPrice, bollardQuantity); // Add labor with the same part number
-    }
-});
-
-
-
-
-    // Add switches, power supplies, etc.
-    [pricingData.powerSupplyPricingInfo, pricingData.switchPricingInfo].forEach(pricingInfo => {
+    // Add bollards and other parts (no filtering needed)
+    [pricingData].forEach(pricingInfo => {
         Object.entries(pricingInfo).forEach(([partNumber, { shortCode, price }]) => {
             const quantityInput = document.getElementById(partNumber);
             const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
             if (quantity > 0) {
                 addOrUpdatePart(partNumber, shortCode, price, quantity);
+
+                // If this part is a bollard, add labor for each bollard
+                if (partNumber.includes("Bollard")) {  // Check if partNumber is a bollard
+                    addOrUpdatePart("Labor", "SC104", 178, quantity);  // One labor unit for each bollard
+                }
             }
         });
     });
@@ -258,3 +194,4 @@ Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode
 
     output.appendChild(table);
 }
+
