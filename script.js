@@ -37,7 +37,11 @@ async function fetchPricingData() {
     const response = await fetch(url);
     const csvText = await response.text();
     
-    const parsedData = Papa.parse(csvText, { header: true, skipEmptyLines: true });
+    const parsedData = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        quoteChar: '"', // Ensure quoted fields are handled correctly
+    });
     
     parsedData.data.forEach(row => {
         // Check if it's a product category (you can replace with your own logic)
