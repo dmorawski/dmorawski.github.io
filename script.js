@@ -44,6 +44,15 @@ async function fetchPricingData() {
         // Adjust according to the CSV structure: "Manufacturer Part Number", "Price", "Short Number"
         
         const partNumber = row['Manufacturer Part Number'];
+
+        // Log the part number and check for hidden characters
+        console.log("Part Number in CSV: ", partNumber);  // This will show you the raw part number
+
+        // Check if there are any unexpected spaces or hidden characters
+        if (partNumber !== partNumber.trim()) {
+            console.log("There are extra spaces or hidden characters in the part number:", partNumber);
+        }
+
         const shortCode = row['Short Number'];
         const price = parseFloat(row['Price']) || 0;
 
