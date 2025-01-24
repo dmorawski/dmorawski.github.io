@@ -162,17 +162,25 @@ function generateQuote() {
         addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
     }
 
-    // Add bollard pricing and labor for bollards
-    Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
-        const bollardQuantity = parseInt(document.getElementById(partNumber)?.value) || 0;
-        if (bollardQuantity > 0) {
-            addOrUpdatePart(partNumber, shortCode, price, bollardQuantity);
+    // Add bollards using the same logic as switches and receivers
+Object.entries(pricingData.bollardPricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+    const bollardInput = document.getElementById(partNumber);
+    console.log(bollardInput);  // Check if the input element is correctly fetched
+    
+    const bollardQuantity = bollardInput ? parseInt(bollardInput.value) || 0 : 0;
+    console.log(`Bollard ${partNumber} Quantity: `, bollardQuantity);  // Check if the quantity is 0 or a valid number
+    
+    if (bollardQuantity > 0) {
+        addOrUpdatePart(partNumber, shortCode, price, bollardQuantity);
 
-            // Add labor for bollards (1 hour per bollard)
-            const laborBollardPrice = 178; // Labor price per bollard (same as before)
-            addOrUpdatePart("Labor", "SC104", laborBollardPrice, bollardQuantity); // Add labor with the same part number
-        }
-    });
+        // Add labor for bollards (1 hour per bollard)
+        const laborBollardPrice = 178; // Labor price per bollard (same as before)
+        addOrUpdatePart("Labor", "SC104", laborBollardPrice, bollardQuantity); // Add labor with the same part number
+    }
+});
+
+
+
 
     // Add switches, power supplies, etc.
     [pricingData.powerSupplyPricingInfo, pricingData.switchPricingInfo].forEach(pricingInfo => {
