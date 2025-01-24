@@ -16,10 +16,23 @@ document.getElementById('toggleTheme').addEventListener('click', () => {
 // Apply the saved theme on page load
 window.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme');
+    
+    // If there is a saved theme, apply it
     if (savedTheme === 'dark') {
         document.body.classList.add('dark-mode');
+    } else if (savedTheme === 'light') {
+        document.body.classList.remove('dark-mode');
+    } else {
+        // If no saved theme, check the user's OS preference
+        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        if (prefersDarkScheme) {
+            document.body.classList.add('dark-mode');
+        } else {
+            document.body.classList.remove('dark-mode');
+        }
     }
 });
+
 
 let operatorCount = 1;
 
