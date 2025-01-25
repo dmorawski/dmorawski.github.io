@@ -15,7 +15,11 @@
             <span class="theme-toggle-ball"></span>
         </label>
     </div>
-    <div id="operatorContainer">
+
+    <!-- Main Container for Desktop Layout -->
+    <div id="mainContainer">
+        <!-- Left section for Operators -->
+        <div id="operatorContainer">
             <h2>Operators</h2>
             <div class="operator-section" id="operatorSection1">
                 <div class="operator-item">
@@ -27,7 +31,7 @@
                     <input type="radio" name="handing1" value="Pair" id="handingPair1">
                     <label for="handingPair1" class="bubble">Pair</label>
                 </div>
-                
+
                 <div class="operator-item">
                     <label>Finish:</label><br>
                     <input type="radio" name="finish1" value="Dark Bronze" id="finishBronze1">
@@ -35,7 +39,7 @@
                     <input type="radio" name="finish1" value="Anodized Aluminum" id="finishAluminum1">
                     <label for="finishAluminum1" class="bubble">Anodized Aluminum</label>
                 </div>
-                
+
                 <div class="operator-item">
                     <label>Arm Type:</label><br>
                     <input type="radio" name="armType1" value="Push" id="armPush1">
@@ -58,69 +62,87 @@
 
         <button onclick="addOperator()">Add Another Operator</button>
 
-        <h2>Switches and Receivers</h2>
-        <div class="switch-container">
-            <div class="switch-item">
-                <label for="4S1U4">Square Switch Quantity:</label>
-                <input type="number" id="4S1U4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="W4S1U4">Weatherproof Square Switch Quantity:</label>
-                <input type="number" id="W4S1U4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="4R1U4">Round Switch Quantity:</label>
-                <input type="number" id="4R1U4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="W4R1U4">Weatherproof Round Switch Quantity:</label>
-                <input type="number" id="W4R1U4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="J01J4">Mullion Switch Quantity:</label>
-                <input type="number" id="J01J4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="WJ01J4">Weatherproof Mullion Switch Quantity:</label>
-                <input type="number" id="WJ01J4" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="233804">Standard Receiver Quantity:</label>
-                <input type="number" id="233804" min="0" value="0">
-            </div>
-            <div class="switch-item">
-                <label for="235215">Vestibule Sequencer Quantity:</label>
-                <input type="number" id="235215" min="0" value="0">
+        <!-- Right Section for Switches, Receivers, Bollards, and Power Supplies -->
+        <div id="partsContainer">
+            <div class="part-section" id="switches">
+                <h2>Switches</h2>
+                <div class="switch-container">
+                    <div class="switch-item">
+                        <label for="4S1U4">Square Switch Quantity:</label>
+                        <input type="number" id="4S1U4" min="0" value="0">
+                    </div>
+                    <div class="switch-item">
+                        <label for="W4S1U4">Weatherproof Square Switch Quantity:</label>
+                        <input type="number" id="W4S1U4" min="0" value="0">
+                    </div>
+                    <div class="switch-item">
+                        <label for="4R1U4">Round Switch Quantity:</label>
+                        <input type="number" id="4R1U4" min="0" value="0">
+                    </div>
+                    <div class="switch-item">
+                        <label for="W4R1U4">Weatherproof Round Switch Quantity:</label>
+                        <input type="number" id="W4R1U4" min="0" value="0">
+                    </div>
+                    <div class="switch-item">
+                        <label for="J01J4">Mullion Switch Quantity:</label>
+                        <input type="number" id="J01J4" min="0" value="0">
+                    </div>
+                    <div class="switch-item">
+                        <label for="WJ01J4">Weatherproof Mullion Switch Quantity:</label>
+                        <input type="number" id="WJ01J4" min="0" value="0">
+                    </div>
+                </div>
             </div>
         </div>
-
-        <h2>Bollards</h2>
-        <div class="bollard-container">
-            <div class="bollard-item">
-                <label for="CM-42-BSU-CLR">Bollard - 42" - Clear Anodized:</label>
-                <input type="number" id="CM-42-BSU-CLR" min="0" value="0">
+        
+        <div id="otherPartsContainer">
+            <div class="part-section" id="receivers">
+                <h2>Receivers</h2>
+                <div class="receiver-container">
+                    <div class="receiver-item">
+                        <label for="233804">Standard Receiver Quantity:</label>
+                        <input type="number" id="233804" min="0" value="0">
+                    </div>
+                    <div class="receiver-item">
+                        <label for="235215">Vestibule Sequencer Quantity:</label>
+                        <input type="number" id="235215" min="0" value="0">
+                    </div>
+                </div>
             </div>
-            <div class="bollard-item">
-                <label for="CM-42-BSU-BRZ">Bollard - 42" - Dark Bronze:</label>
-                <input type="number" id="CM-42-BSU-BRZ" min="0" value="0">
+
+            <div class="part-section" id="powerSupplies">
+                <h2>Power Supplies</h2>
+                <div class="power-supply-container">
+                    <div class="power-supply-item">
+                        <label for="LRS-75-24">24V Power Supply:</label>
+                        <input type="number" id="LRS-75-24" min="0" value="0">
+                    </div>
+                    <div class="power-supply-item">
+                        <label for="LRS-75-12">12V Power Supply:</label>
+                        <input type="number" id="LRS-75-12" min="0" value="0">
+                    </div>
+                </div>
+            </div>
+            <div class="part-section" id="bollards">
+                <h2>Bollards</h2>
+                <div class="bollard-container">
+                    <div class="bollard-item">
+                        <label for="CM-42-BSU-CLR">Bollard - 42" - Clear Anodized:</label>
+                        <input type="number" id="CM-42-BSU-CLR" min="0" value="0">
+                    </div>
+                    <div class="bollard-item">
+                        <label for="CM-42-BSU-BRZ">Bollard - 42" - Dark Bronze:</label>
+                        <input type="number" id="CM-42-BSU-BRZ" min="0" value="0">
+                    </div>
+                </div>
             </div>
         </div>
-        <h2>Power Supplies</h2>
-        <div class="power-supply-container">
-            <div class="power-supply-item">
-                <label for="LRS-75-24">24V Power Supply:</label>
-                <input type="number" id="LRS-75-24" min="0" value="0">
-            </div>
-            <div class="power-supply-item">
-                <label for="LRS-75-12">12V Power Supply:</label>
-                <input type="number" id="LRS-75-12" min="0" value="0">
-            </div>
-        </div>
-
-        <button onclick="generateQuote()">Generate Quote</button>
-
-        <div id="quoteOutput"></div>
     </div>
+
+    <button onclick="generateQuote()">Generate Quote</button>
+
+    <div id="quoteOutput"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
