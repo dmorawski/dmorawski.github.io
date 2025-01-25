@@ -151,8 +151,7 @@ button {
 }
 
 button:hover {
-    background-color: #4cb052;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for emphasis */
+    background-color: #45a049; /* Darker shade on hover */
 }
 
 /* Quote Output Area Styling */
