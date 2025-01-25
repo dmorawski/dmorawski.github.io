@@ -38,35 +38,41 @@ function addOperator() {
     operatorSection.id = `operatorSection${operatorCount}`;
 
     operatorSection.innerHTML = `
-        <label>Handing/Pair:</label><br>
-        <input type="radio" name="handing${operatorCount}" value="RH" id="handingRH${operatorCount}">
-        <label for="handingRH${operatorCount}" class="bubble">RH</label>
-        
-        <input type="radio" name="handing${operatorCount}" value="LH" id="handingLH${operatorCount}">
-        <label for="handingLH${operatorCount}" class="bubble">LH</label>
-        
-        <input type="radio" name="handing${operatorCount}" value="Pair" id="handingPair${operatorCount}">
-        <label for="handingPair${operatorCount}" class="bubble">Pair</label><br><br>
+        <div class="operator-item">
+            <label>Handing/Pair:</label><br>
+            <input type="radio" name="handing${operatorCount}" value="RH" id="handingRH${operatorCount}">
+            <label for="handingRH${operatorCount}" class="bubble">RH</label>
+            <input type="radio" name="handing${operatorCount}" value="LH" id="handingLH${operatorCount}">
+            <label for="handingLH${operatorCount}" class="bubble">LH</label>
+            <input type="radio" name="handing${operatorCount}" value="Pair" id="handingPair${operatorCount}">
+            <label for="handingPair${operatorCount}" class="bubble">Pair</label>
+        </div>
 
-        <label>Finish:</label><br>
-        <input type="radio" name="finish${operatorCount}" value="Dark Bronze" id="finishBronze${operatorCount}">
-        <label for="finishBronze${operatorCount}" class="bubble">Dark Bronze</label>
-        
-        <input type="radio" name="finish${operatorCount}" value="Anodized Aluminum" id="finishAluminum${operatorCount}">
-        <label for="finishAluminum${operatorCount}" class="bubble">Anodized Aluminum</label><br><br>
+        <div class="operator-item">
+            <label>Finish:</label><br>
+            <input type="radio" name="finish${operatorCount}" value="Dark Bronze" id="finishBronze${operatorCount}">
+            <label for="finishBronze${operatorCount}" class="bubble">Dark Bronze</label>
+            <input type="radio" name="finish${operatorCount}" value="Anodized Aluminum" id="finishAluminum${operatorCount}">
+            <label for="finishAluminum${operatorCount}" class="bubble">Anodized Aluminum</label>
+        </div>
 
-        <label>Arm Type:</label><br>
-        <input type="radio" name="armType${operatorCount}" value="Push" id="armPush${operatorCount}">
-        <label for="armPush${operatorCount}" class="bubble">Push Arm / Outswing</label>
-        
-        <input type="radio" name="armType${operatorCount}" value="Pull" id="armPull${operatorCount}">
-        <label for="armPull${operatorCount}" class="bubble">Pull Arm / Inswing</label><br><br>
+        <div class="operator-item">
+            <label>Arm Type:</label><br>
+            <input type="radio" name="armType${operatorCount}" value="Push" id="armPush${operatorCount}">
+            <label for="armPush${operatorCount}" class="bubble">Push Arm / Outswing</label>
+            <input type="radio" name="armType${operatorCount}" value="Pull" id="armPull${operatorCount}">
+            <label for="armPull${operatorCount}" class="bubble">Pull Arm / Inswing</label>
+        </div>
 
-        <label for="doorWidth${operatorCount}">Enter Door Width (in inches):</label>
-        <input type="number" id="doorWidth${operatorCount}" placeholder="e.g., 36" min="1"><br><br>
+        <div class="operator-item">
+            <label for="doorWidth${operatorCount}">Enter Door Width (in inches):</label>
+            <input type="number" id="doorWidth${operatorCount}" placeholder="e.g., 36" min="1">
+        </div>
 
-        <label for="quantity${operatorCount}">Quantity:</label>
-        <input type="number" id="quantity${operatorCount}" value="1" min="1"><br><br>
+        <div class="operator-number-item">
+            <label for="quantity${operatorCount}">Quantity:</label>
+            <input type="number" id="quantity${operatorCount}" value="1" min="1">
+        </div>
     `;
 
     // Append the operator section to the container
@@ -81,6 +87,7 @@ function addOperator() {
         operatorContainer.appendChild(addOperatorBtn);  // Move button to the bottom after the new operator section is added
     }, 10);
 }
+
 
 
 function generateQuote() {

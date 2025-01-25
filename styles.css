@@ -11,7 +11,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 10px;
     background-color: #121212;
     color: #ffffff;
     font-size: 16px; /* Default font size for consistency */
@@ -43,7 +43,7 @@ h2 {
 }*/
 
 /* operator-section and part-section */
-#operatorContainer .operator-section {
+#operatorContainer {
     margin-bottom: 20px;
     padding: 10px;
     border-radius: 8px; /* Optional: rounds the corners of each operator section */
@@ -53,12 +53,15 @@ h2 {
     margin-bottom: 20px;
     padding: 10px;
 }
+/* Consistent margin for all operator items */
+#operatorContainer .operator-section .operator-item {
+    margin-bottom: 10px; /* Set consistent spacing between items */
+}
 
 /* Faint line only for sections that are not the last one */
 .operator-section:not(:last-of-type) {
     border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Faint white border */
 }
-
 
 .part-section {
     border-radius: 8px;
