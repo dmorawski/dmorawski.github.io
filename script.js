@@ -1,4 +1,3 @@
-let operatorCount = 1;
 
 // This will hold pricing data once the CSV is fetched
 let pricingData = {};
@@ -28,8 +27,12 @@ async function fetchPricingData() {
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
 
+let operatorCount = 1;
+
 function addOperator() {
     operatorCount++;
+
+    // Create the new operator section
     const operatorSection = document.createElement('div');
     operatorSection.classList.add('operator-section');
     operatorSection.id = `operatorSection${operatorCount}`;
@@ -66,8 +69,19 @@ function addOperator() {
         <input type="number" id="quantity${operatorCount}" value="1" min="1"><br><br>
     `;
 
-    document.getElementById('operatorContainer').appendChild(operatorSection);
+    // Append the operator section to the container
+    const operatorContainer = document.getElementById('operatorContainer');
+    operatorContainer.appendChild(operatorSection);
+
+    // Get the "Add Another Operator" button
+    const addOperatorBtn = document.getElementById('addOperatorBtn');
+
+    // Use setTimeout to ensure the DOM is updated before moving the button
+    setTimeout(() => {
+        operatorContainer.appendChild(addOperatorBtn);  // Move button to the bottom after the new operator section is added
+    }, 10);
 }
+
 
 function generateQuote() {
     const partsList = [];
