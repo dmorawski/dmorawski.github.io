@@ -1,3 +1,10 @@
+/* General Reset for Box Sizing */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 /* General Layout and Body Styling */
 body {
     font-family: Arial, sans-serif;
@@ -27,6 +34,7 @@ h2 {
     background-color: #f9f9f9;
     border-radius: 8px; /* rounds corner of operator container */
     padding: 10px;
+    margin: 0;
 
 }*/
 
