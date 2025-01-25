@@ -26,6 +26,7 @@ h2 {
 #operatorContainer {
     background-color: #f9f9f9;
     border-radius: 8px; /* rounds corner of operator container */
+    padding: 10px;
 
 }*/
 
@@ -167,10 +168,11 @@ form input[type="number"] {
 }
 
 /* Make the labels block-level elements to ensure input fields are on new lines */
+.operator-number-item label,
 .switch-item label,
 .receiver-item label,
 .power-supply-item label,
-.bollard-item label,
+.bollard-item label
  {
     display: block; /* Force label to be on a new line */
     margin-bottom: 5px; /* Add margin for some spacing between the label and input */
@@ -220,11 +222,10 @@ table {
     }
 
     .part-section {
-        padding: 20px;
+        padding: 10px;
         border-radius: 8px;
     }
 }
-
 /* Smaller screens (less than 1024px wide) */
 @media (max-width: 1023px) {
     #mainContainer {
@@ -293,6 +294,7 @@ body.dark-mode #operatorContainer {
 body.dark-mode #operatorContainer .operator-section {
     background-color: #333333;
     color: #ffffff;
+    border-radius: 8px; 
 }
 
 body.dark-mode #operatorContainer .operator-section label {
