@@ -15,6 +15,11 @@ h1 {
     color: #333;
     transition: color 0.3s ease;
 }
+h2 {
+    text-align: left;  /* Centers the header within its container */
+    padding: 8px;
+    margin: 5px 0 15px;     /* Adds some margin for spacing */
+}
 
 /* Form Container Styling */
 form {
@@ -148,6 +153,7 @@ form input[type="number"] {
     max-width: 300px;
     padding: 10px;
     margin-bottom: 20px;
+    border-radius: 50px;  /* Adjust this value for more or less rounding */
 }
 
 /* Table Styling - Ensuring it's responsive */
@@ -274,7 +280,8 @@ body.dark-mode .theme-toggle-label {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
-        gap: 30px;
+        align-items: flex-start;
+        gap: 10px;
         width: 100%;
     }
 
@@ -285,6 +292,12 @@ body.dark-mode .theme-toggle-label {
     #partsContainer {
         width: 25%; /* 1/3 of the screen */
     }
+
+    .part-section {
+        background-color: #f9f9f9;
+        border-radius: 8px;  /* This rounds the corners of the part section */
+    }
+
         /* Left column for switches */
     .switch-container {
         grid-column: 1; /* Switches are in the first column */
@@ -296,23 +309,25 @@ body.dark-mode .theme-toggle-label {
         width: 35%; /* 2/3 of the screen */
         display: grid;
         grid-template-columns: 1fr 1fr; /* 2 column layout */
-        grid-template-rows: auto auto auto; /* Three rows */
-        gap: 20px;
+        grid-template-rows: auto auto; /* two rows */
+        gap: 10px;
+
     }
+
     /* Second column will have receivers, power supplies, and bollards */
     .receiver-container {
-        grid-column: 2;
+        grid-column: 1;
         grid-row: 1; /* Receivers are in the first row */
     }
 
     .power-supply-container {
         grid-column: 2;
-        grid-row: 2; /* Power supplies are in the second row */
+        grid-row: 1; /* Power supplies are in the second row */
     }
 
     .bollard-container {
-        grid-column: 2;
-        grid-row: 3; /* Bollards are in the third row */
+        grid-column: 1;
+        grid-row: 2; /* Bollards are in the third row */
     }
 
     /* Light Mode for Parts */
