@@ -46,6 +46,17 @@ h2 {
     border-radius: 8px; /* Optional: rounds the corners of each operator section */
 }
 
+.operator-section {
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+/* Faint line only for sections that are not the last one */
+.operator-section:not(:last-of-type) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Faint white border */
+}
+
+
 .part-section {
     border-radius: 8px;
     margin: 0;
@@ -130,12 +141,14 @@ button:hover {
 
 /* Table header styling */
 table {
-    width: 80%;
+    width: 90%;
     margin: 20px;
     border-collapse: separate; /* Use separate borders to allow rounded corners */
     border-spacing: 0; /* Remove space between cells */
-    border-radius: 8px; /* Rounded corners for the table */
+    border-radius: 4px; /* Rounded corners for the table */
     overflow: hidden; /* Ensure rounded corners are visible */
+    margin: 0 auto; /* Centers the table */
+    border: 1px solid #333333;
 }
 
 /* Table Header Styling */
@@ -148,15 +161,6 @@ th {
     text-align: left;
     color: #ffffff;
     background-color: #444444; /* Slightly lighter for header cells */
-}
-
-/* Table Body Styling */
-tbody tr:nth-child(even) {
-    background-color: #333333; /* Darker rows */
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #444444; /* Lighter rows for alternating effect */
 }
 
 td {
@@ -172,9 +176,14 @@ td:hover {
 
 /* Border Styling */
 td, th {
-    border: 1px solid #555555; /* Light border for the cells */
+    border: 1px solid #333333;
 }
-
+thead:first-child tr:first-child th:first-child, tbody:first-child tr:first-child td:first-child {
+    border-radius: 4px 0 0 0;
+}
+thead:last-child tr:last-child th:first-child, tbody:last-child tr:last-child td:first-child {
+    border-radius: 0 0 0 4px;
+}
 
 /* Form Elements Spacing */
 form label {

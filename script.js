@@ -1,39 +1,3 @@
-// // Add theme toggling functionality
-// document.getElementById('toggleTheme').addEventListener('click', () => {
-//     const body = document.body;
-
-//     // Toggle the dark-mode class
-//     body.classList.toggle('dark-mode');
-
-//     // Save the theme preference in localStorage
-//     if (body.classList.contains('dark-mode')) {
-//         localStorage.setItem('theme', 'dark');
-//     } else {
-//         localStorage.setItem('theme', 'light');
-//     }
-// });
-
-// // Apply the saved theme on page load
-// window.addEventListener('DOMContentLoaded', () => {
-//     const savedTheme = localStorage.getItem('theme');
-    
-//     // If there is a saved theme, apply it
-//     if (savedTheme === 'dark') {
-//         document.body.classList.add('dark-mode');
-//     } else if (savedTheme === 'light') {
-//         document.body.classList.remove('dark-mode');
-//     } else {
-//         // If no saved theme, check the user's OS preference
-//         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-//         if (prefersDarkScheme) {
-//             document.body.classList.add('dark-mode');
-//         } else {
-//             document.body.classList.remove('dark-mode');
-//         }
-//     }
-// });
-
-
 let operatorCount = 1;
 
 // This will hold pricing data once the CSV is fetched
