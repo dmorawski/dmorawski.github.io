@@ -21,6 +21,7 @@
         <!-- Left section for Operators -->
         <div id="operatorContainer">
             <h2>Operators</h2>
+            <button onclick="addOperator()">Add Another Operator</button>
             <div class="operator-section" id="operatorSection1">
                 <div class="operator-item">
                     <label>Handing/Pair:</label><br>
@@ -60,51 +61,46 @@
             </div>
         </div>
 
-        <button onclick="addOperator()">Add Another Operator</button>
-
         <!-- Right Section for Switches, Receivers, Bollards, and Power Supplies -->
         <div id="partsContainer">
             <div class="part-section" id="switches">
                 <h2>Switches</h2>
                 <div class="switch-container">
                     <div class="switch-item">
-                        <label for="4S1U4">Square Switch Quantity:</label>
+                        <label for="4S1U4">Square:</label>
                         <input type="number" id="4S1U4" min="0" value="0">
                     </div>
                     <div class="switch-item">
-                        <label for="W4S1U4">Weatherproof Square Switch Quantity:</label>
+                        <label for="W4S1U4">Weatherproof Square:</label>
                         <input type="number" id="W4S1U4" min="0" value="0">
                     </div>
                     <div class="switch-item">
-                        <label for="4R1U4">Round Switch Quantity:</label>
+                        <label for="4R1U4">Round:</label>
                         <input type="number" id="4R1U4" min="0" value="0">
                     </div>
                     <div class="switch-item">
-                        <label for="W4R1U4">Weatherproof Round Switch Quantity:</label>
+                        <label for="W4R1U4">Weatherproof Round:</label>
                         <input type="number" id="W4R1U4" min="0" value="0">
                     </div>
                     <div class="switch-item">
-                        <label for="J01J4">Mullion Switch Quantity:</label>
+                        <label for="J01J4">Mullion:</label>
                         <input type="number" id="J01J4" min="0" value="0">
                     </div>
                     <div class="switch-item">
-                        <label for="WJ01J4">Weatherproof Mullion Switch Quantity:</label>
+                        <label for="WJ01J4">Weatherproof Mullion:</label>
                         <input type="number" id="WJ01J4" min="0" value="0">
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div id="otherPartsContainer">
+            </div>  
             <div class="part-section" id="receivers">
                 <h2>Receivers</h2>
                 <div class="receiver-container">
                     <div class="receiver-item">
-                        <label for="233804">Standard Receiver Quantity:</label>
+                        <label for="233804">Standard Receiver:</label>
                         <input type="number" id="233804" min="0" value="0">
                     </div>
                     <div class="receiver-item">
-                        <label for="235215">Vestibule Sequencer Quantity:</label>
+                        <label for="235215">Vestibule Sequencer:</label>
                         <input type="number" id="235215" min="0" value="0">
                     </div>
                 </div>

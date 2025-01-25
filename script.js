@@ -119,32 +119,50 @@ function generateQuote() {
         }
     }
 
-    // Add operators
-    for (let i = 1; i <= operatorCount; i++) {
-        const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
-        const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
-        const armType = document.querySelector(`input[name="armType${i}"]:checked`)?.value;
-        const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
-        const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
+// Add operators
+for (let i = 1; i <= operatorCount; i++) {
+    const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
+    const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
+    const armType = document.querySelector(`input[name="armType${i}"]:checked`)?.value;
+    const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
+    const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
 
-        if (!handing || !finish || !armType || !doorWidth) {
-            alert(`Please complete all fields for Operator ${i}`);
-            return;
-        }
-
-        const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
-        const armCode = armType === "Push" ? "1" : "2";
-        const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
-        const widthCode = doorWidth === "36" ? "-36" : "-XX";
-        const operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
-
-        const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: 2300 };
-        addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
-
-        const laborPrice = 178;
-        const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
-        addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
+    if (!handing || !finish || !armType || !doorWidth) {
+        alert(`Please complete all fields for Operator ${i}`);
+        return;
     }
+
+    const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
+    const armCode = armType === "Push" ? "1" : "2";
+    const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
+    
+    // Default to -XX for door width
+    let widthCode = "-XX";
+
+    // If the door width is 72 and Pair is selected, set widthCode to -72
+    if (doorWidth === "72" && handing === "Pair") {
+        widthCode = "-72";
+    } else if (doorWidth === "36") {
+        widthCode = "-36";
+    }
+
+    // Build the operator part number
+    let operatorPartNumber = `MAC-L${handingCode}${armCode}${finishCode}${widthCode}`;
+
+    // Get operator data from pricingData or set default price for double door operators (MAC-LP)
+    const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: operatorPartNumber.startsWith("MAC-LP") ? 4688 : 2300 };
+
+    // Add or update the operator part
+    addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
+
+    // Labor price logic
+    const laborPrice = 178;
+    const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
+
+    // Add or update the labor part
+    addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
+}
+
 
     // Add bollards and other parts (no filtering needed)
     [pricingData].forEach(pricingInfo => {
