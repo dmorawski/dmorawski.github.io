@@ -1,37 +1,37 @@
-// Add theme toggling functionality
-document.getElementById('toggleTheme').addEventListener('click', () => {
-    const body = document.body;
+// // Add theme toggling functionality
+// document.getElementById('toggleTheme').addEventListener('click', () => {
+//     const body = document.body;
 
-    // Toggle the dark-mode class
-    body.classList.toggle('dark-mode');
+//     // Toggle the dark-mode class
+//     body.classList.toggle('dark-mode');
 
-    // Save the theme preference in localStorage
-    if (body.classList.contains('dark-mode')) {
-        localStorage.setItem('theme', 'dark');
-    } else {
-        localStorage.setItem('theme', 'light');
-    }
-});
+//     // Save the theme preference in localStorage
+//     if (body.classList.contains('dark-mode')) {
+//         localStorage.setItem('theme', 'dark');
+//     } else {
+//         localStorage.setItem('theme', 'light');
+//     }
+// });
 
-// Apply the saved theme on page load
-window.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme');
+// // Apply the saved theme on page load
+// window.addEventListener('DOMContentLoaded', () => {
+//     const savedTheme = localStorage.getItem('theme');
     
-    // If there is a saved theme, apply it
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
-    } else if (savedTheme === 'light') {
-        document.body.classList.remove('dark-mode');
-    } else {
-        // If no saved theme, check the user's OS preference
-        const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-        if (prefersDarkScheme) {
-            document.body.classList.add('dark-mode');
-        } else {
-            document.body.classList.remove('dark-mode');
-        }
-    }
-});
+//     // If there is a saved theme, apply it
+//     if (savedTheme === 'dark') {
+//         document.body.classList.add('dark-mode');
+//     } else if (savedTheme === 'light') {
+//         document.body.classList.remove('dark-mode');
+//     } else {
+//         // If no saved theme, check the user's OS preference
+//         const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+//         if (prefersDarkScheme) {
+//             document.body.classList.add('dark-mode');
+//         } else {
+//             document.body.classList.remove('dark-mode');
+//         }
+//     }
+// });
 
 
 let operatorCount = 1;
@@ -190,7 +190,10 @@ for (let i = 1; i <= operatorCount; i++) {
     const table = document.createElement("table");
     table.setAttribute("border", "1");
     table.setAttribute("cellpadding", "5");
-    table.style.borderCollapse = "collapse";
+    table.style.borderCollapse = "separate";  // Ensure rounded corners work
+    table.style.borderRadius = "8px";  // Round corners for the table
+    table.style.overflow = "hidden";  // Make sure the content respects the rounded corners
+
 
     // Add header row
     const headerRow = table.insertRow();

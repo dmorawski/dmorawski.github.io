@@ -12,18 +12,18 @@ body {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-    background-color: #121212;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #333;
     font-size: 16px; /* Default font size for consistency */
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 h1 {
-    color: #ffffff;
+    color: #333;
+    transition: color 0.2s ease;
 }
 
 h2 {
-    color: #ffffff;
     text-align: left;
     padding: 8px;
     margin: 5px 0 5px; /* Adds some margin for spacing */
@@ -31,8 +31,7 @@ h2 {
 
 /* Operator section on the left */
 #operatorContainer {
-    background-color: #333333;
-    color: #ffffff;
+    background-color: #f9f9f9;
     border-radius: 8px; /* rounds corner of operator container */
     padding: 10px;
     margin: 0;
@@ -47,16 +46,10 @@ h2 {
 }
 
 .part-section {
+    background-color: #f9f9f9;
     border-radius: 8px;
     margin: 0;
     padding: 10px; /* Adjust padding to give space inside each section */
-}
-
-#switches,
-#receivers,
-#bollards,
-#powerSupplies {
-    background-color: #2c2c2c;
 }
 
 /* Form Container Styling */
@@ -129,52 +122,22 @@ button:hover {
 }
 
 /* Table header styling */
-table {
-    width: 80%;
-    margin: 20px;
-    border-collapse: separate; /* Use separate borders to allow rounded corners */
-    border-spacing: 0; /* Remove space between cells */
-    border-radius: 8px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure rounded corners are visible */
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+    text-align: left;
 }
 
-/* Table Header Styling */
-thead {
-    background-color: #333333; /* Dark header background */
-}
-
-th {
+/* Table cell styling */
+table td {
+    font-weight: normal;
+    color: #333;
     padding: 10px;
     text-align: left;
-    color: #ffffff;
-    background-color: #444444; /* Slightly lighter for header cells */
+    word-wrap: break-word;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
-
-/* Table Body Styling */
-tbody tr:nth-child(even) {
-    background-color: #333333; /* Darker rows */
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #444444; /* Lighter rows for alternating effect */
-}
-
-td {
-    padding: 10px;
-    text-align: left;
-    color: #ffffff;
-}
-
-/* Hover effect */
-td:hover {
-    background-color: #555555; /* Slightly lighter on hover for interactivity */
-}
-
-/* Border Styling */
-td, th {
-    border: 1px solid #555555; /* Light border for the cells */
-}
-
 
 /* Form Elements Spacing */
 form label {
@@ -313,3 +276,101 @@ table {
     }
 }
 
+/* Dark Mode Styling */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode table th {
+    background-color: #333;
+    color: #cccccc;
+    font-weight: bold;
+    border-color: #555;
+}
+
+body.dark-mode table td {
+    color: #cccccc;
+    border-color: #555;
+}
+
+body.dark-mode #operatorContainer {
+    background-color: #333333;
+    color: #ffffff;
+}
+
+body.dark-mode #operatorContainer .operator-section {
+    background-color: #333333;
+    color: #ffffff;
+    border-radius: 8px; 
+}
+
+body.dark-mode #operatorContainer .operator-section label {
+    color: #ffffff;
+}
+
+body.dark-mode #operatorContainer .operator-section input {
+    background-color: #444;
+    color: #ffffff;
+    border-color: #666;
+}
+
+body.dark-mode #operatorContainer button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+body.dark-mode #switches,
+body.dark-mode #receivers,
+body.dark-mode #bollards,
+body.dark-mode #powerSupplies {
+    background-color: #2c2c2c;
+}
+
+/* Theme Toggle Container */
+.theme-toggle-container {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.theme-toggle-checkbox {
+    display: none;
+}
+
+.theme-toggle-label {
+    width: 30px;
+    height: 15px;
+    background-color: #ccc;
+    border-radius: 25px;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.theme-toggle-ball {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: 13px;
+    height: 13px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label {
+    background-color: #4CAF50;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .theme-toggle-ball {
+    transform: translateX(15px);
+}
+
+body.dark-mode .theme-toggle-label {
+    background-color: #555;
+}
