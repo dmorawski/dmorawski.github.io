@@ -307,13 +307,13 @@ table {
 /* Smaller screens (less than 480px wide) */
 @media (max-width: 480px) {
     table th {
-        font-size: calc((.4em + 2vmin) + (.4em + 2vmax));
+        font-size: 15px;
         padding: 8px;
         font-weight: bold;
     }
 
     table td {
-        font-size: calc((.4em + 2vmin) + (.4em + 2vmax));
+        font-size: 15px;
         padding: 8px;
     }
 
