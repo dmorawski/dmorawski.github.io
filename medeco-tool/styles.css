@@ -10,9 +10,9 @@ label {
 }
 
 /* Consistent styling for all form elements */
-select, input {
+select {
     width: 100%;
-    padding: 8px;
+    padding: 8px 35px 8px 10px; /* Extra padding on the right for the arrow */
     margin-top: 5px;
     box-sizing: border-box;
     font-size: 16px;
@@ -23,7 +23,21 @@ select, input {
     -webkit-appearance: none;
     -moz-appearance: none;
     background-color: white;
+
+    /* Add dropdown arrow */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='16' height='16' fill='%23777777'><path d='M7 10l5 5 5-5H7z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
 }
+
+/* Ensure dropdowns look good when focused */
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+
 
 /* Optional: Add a wrapper for better spacing */
 .form-group {
