@@ -124,7 +124,9 @@ function populateDropdownBrief(elementId, options) {
 }
 
 // Populate dropdowns on page load
-window.onload = function () {
+window.onload = async function () {
+    await fetchPricingData(); // Ensure pricing data is ready before anything else
+
     populateDropdown("cylinderType", data.cylinderTypes);
     populateDropdown("mortiseLength", data.mortiseLengths);
     populateDropdown("kikType", data.kikTypes); 
@@ -222,8 +224,22 @@ function generatePartNumber() {
     if (productListing === "") {
         partNumber = "INVALID ENTRY";
     }
-
     console.log(`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`);
     console.log(pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`]);
+
+    let price = 0;
+
+    if (technology == "H") {
+        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceM4;
+    } else if (technology == "T") {
+        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceM3;
+    } else if (technology == "W") {
+        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceOrig;
+    } else if (technology == "N") {
+        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceX4;
+    }
+    const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
     document.getElementById("partNumberOutput").textContent = partNumber;
+    document.getElementById("priceOutput").textContent = formattedPrice;
 }
