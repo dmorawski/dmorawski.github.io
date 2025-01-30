@@ -64,6 +64,41 @@ const data = {
     }
 };
 
+
+// This will hold pricing data once the CSV is fetched
+let pricingData = {};
+
+// Fetch the pricing data from the CSV file
+async function fetchPricingData() {
+    const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    const response = await fetch(url);
+    const csvText = await response.text();
+    
+    const parsedData = Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        quoteChar: '"', // Ensure quoted fields are handled correctly
+    });
+    
+    parsedData.data.forEach(row => {
+        const partNumber = row['Item'];
+        const priceM4 = parseFloat(row['M4']) || 0;
+        const priceM4Bi = parseFloat(row['M4 BiLevel']) || 0;
+        const priceM3 = parseFloat(row['M3']) || 0;
+        const priceM3Bi = parseFloat(row['M3 BiLevel']) || 0;
+        const priceX4 = parseFloat(row['X4']) || 0;
+        const priceElectronic = parseFloat(row['Electronic']) || 0;
+        const priceOrig = parseFloat(row['Orig/Biax']) || 0;
+        const priceKeymark = parseFloat(row['Keymark']) || 0;
+
+        // Add the part number and pricing info directly to the pricingData object
+        pricingData[partNumber] = { priceM4, priceM4Bi, priceM3, priceM3Bi, priceX4, priceElectronic, priceOrig, priceKeymark };
+    });
+}
+
+// Initialize pricing data when the page loads
+window.addEventListener('DOMContentLoaded', fetchPricingData);
+
 function populateDropdown(elementId, options) {
     const dropdown = document.getElementById(elementId);
     dropdown.innerHTML = ""; // Clear existing options
