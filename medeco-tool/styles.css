@@ -1,0 +1,52 @@
+
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+/* Consistent styling for all form elements */
+select, input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    height: 40px; /* Match heights */
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+}
+
+/* Optional: Add a wrapper for better spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0056b3;
+}
+#result {
+    margin-top: 20px;
+    font-size: 1.2em;
+}

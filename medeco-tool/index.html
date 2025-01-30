@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medeco Part Builder</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- <link rel="stylesheet" href="styles.css?t=<?php echo time(); ?>"> -->
+</head>
+<body>
+    <form id="partNumberForm">
+        <label for="cylinderType">Cylinder Type:</label>
+        <select id="cylinderType"></select>
+
+        <div id="kikTypeContainer">
+            <label for="kikType">KIK Type:</label>
+            <select id="kikType"></select>
+        </div>
+
+        <div id="mortiseLengthContainer">
+            <label for="mortiseLength">Mortise Length:</label>
+            <select id="mortiseLength"></select>
+        </div>
+
+        <div id="numPinsContainer">
+            <label for="numPins"># of Pins (SFIC Only):</label>
+            <select id="numPins"></select>
+        </div>
+
+        <label for="technology">Technology:</label>
+        <select id="technology"></select>
+
+        <label for="finish">Finish:</label>
+        <select id="finish"></select>
+
+        <label for="pinning">Pinning:</label>
+        <select id="pinning"></select>
+
+        <div id="camContainer">
+            <label for="cams">Cam (Mortise only):</label>
+            <select id="cams"></select>
+        </div>
+
+        <!-- <button type="button" onclick="generatePartNumber()">Generate Part Number</button> -->
+    </form>
+
+    <div id="result">
+        <strong>Part Number:</strong>
+        <span id="partNumberOutput"></span>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
