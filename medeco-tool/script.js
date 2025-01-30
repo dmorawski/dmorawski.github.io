@@ -207,8 +207,8 @@ function generatePartNumber() {
         productListing = "00006";
         partNumber = `${cylinderTypeCode}${numPins}${productListing} ${technology} ${finish} ${keyway} ${pinning}`;
     } else if (cylinderType === "Mortise") {
-        productListing = `${cylinderTypeCode}${mortiseLength}`;
-        partNumber = `${productListing} ${technology} ${finish} ${keyway} ${pinning} ${cams}`;
+        productListing = `${mortiseLength}`;
+        partNumber = `${cylinderTypeCode}${productListing} ${technology} ${finish} ${keyway} ${pinning} ${cams}`;
     } else if (cylinderType === "Rim") {
         productListing = "0400H";
         partNumber = `${cylinderTypeCode}${productListing} ${technology} ${finish} ${keyway} ${pinning}` + " Y02";
@@ -223,5 +223,7 @@ function generatePartNumber() {
         partNumber = "INVALID ENTRY";
     }
 
+    console.log(`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`);
+    console.log(pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`]);
     document.getElementById("partNumberOutput").textContent = partNumber;
 }
