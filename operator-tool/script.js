@@ -4,7 +4,7 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const url = 'https://dmorawski.github.io/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    const url = 'https://dmorawski.github.io/operator-tool/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
     const response = await fetch(url);
     const csvText = await response.text();
     
