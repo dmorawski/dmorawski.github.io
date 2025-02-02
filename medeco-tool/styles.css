@@ -60,7 +60,7 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-#result {
+#result, #cam-text {
     margin-top: 20px;
     font-size: 1.2em;
 }

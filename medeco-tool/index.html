@@ -6,8 +6,6 @@
     <title>Medeco Part Builder</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
-
-    <!-- <link rel="stylesheet" href="styles.css?t=<?php echo time(); ?>"> -->
 </head>
 <body>
     <form id="partNumberForm">
@@ -32,6 +30,9 @@
         <label for="technology">Technology:</label>
         <select id="technology"></select>
 
+        <label for="chart">Chart:</label>
+        <select id="chart"></select>
+
         <label for="finish">Finish:</label>
         <select id="finish"></select>
 
@@ -49,6 +50,14 @@
     <div id="result">
         <strong>Part Number:</strong>
         <span id="partNumberOutput"></span>
+    </div>
+    <div id="result">
+        <strong>Short Code:</strong>
+        <span id="shortCodeOutput"></span>
+    </div>
+    <div id="cam-text">
+        <strong>Cam:</strong>
+        <span id="camOutput"></span>
     </div>
     <div id="result">
         <strong>Price:</strong>

@@ -9,17 +9,38 @@ const data = {
         "6 Pin": "6",
         "7 Pin": "7"
     },
+    chart: {
+        "Bloomington": "Bloomington",
+        "Minneapolis": "Minneapolis",
+        "TRANS-Alarm": "TRANS-Alarm",
+        "Mobile": "Mobile",
+        "Shared": "Shared"
+    },
     keyways: {
-        "H": "43",
-        "N": "DBQ",
-        "T": "FHS",
-        "W": "X3"
+        "BloomingtonH": "43",
+        "BloomingtonP": "43",
+        "MinneapolisH": "43",
+        "MinneapolisP": "43",
+        "BloomingtonN": "DBQ",
+        "TRANS-AlarmN": "DBK",
+        "BloomingtonT": "FH",
+        "MobileT": "FK",
+        "TRANS-AlarmT": "DX",
+        "MinneapolisT": "DH",
+        "BloomingtonW": "X3",
+        "MobileW": "Z3",
+        "SharedW": "G3",
+        "BloomingtonJ": "FH",
+        "MinneapolisJ": "DH"
     },
     technologies: {
+        "X4": "N",
         "M4": "H",
+        "M4 BiLevel": "P",
         "M3": "T",
+        "M3 BiLevel": "J",
         "Biaxial": "W",
-        "X4": "N"
+        "M3 BiLevel": "J"
     },
     finishes: {
         "Bright Brass (US03)": "05",
@@ -79,20 +100,14 @@ async function fetchPricingData() {
         skipEmptyLines: true,
         quoteChar: '"', // Ensure quoted fields are handled correctly
     });
-    
+
     parsedData.data.forEach(row => {
-        const partNumber = row['Item'];
-        const priceM4 = parseFloat(row['M4']) || 0;
-        const priceM4Bi = parseFloat(row['M4 BiLevel']) || 0;
-        const priceM3 = parseFloat(row['M3']) || 0;
-        const priceM3Bi = parseFloat(row['M3 BiLevel']) || 0;
-        const priceX4 = parseFloat(row['X4']) || 0;
-        const priceElectronic = parseFloat(row['Electronic']) || 0;
-        const priceOrig = parseFloat(row['Orig/Biax']) || 0;
-        const priceKeymark = parseFloat(row['Keymark']) || 0;
+        const partNumber = row['Manufacturer Part Number'];
+        const shortCode = row['Short Number'];
+        const price = parseFloat(row['Price']) || 0;
 
         // Add the part number and pricing info directly to the pricingData object
-        pricingData[partNumber] = { priceM4, priceM4Bi, priceM3, priceM3Bi, priceX4, priceElectronic, priceOrig, priceKeymark };
+        pricingData[partNumber] = { shortCode, price };
     });
 }
 
@@ -132,6 +147,7 @@ window.onload = async function () {
     populateDropdown("kikType", data.kikTypes); 
     populateDropdownBrief("numPins", data.numPins);
     populateDropdown("technology", data.technologies);
+    populateDropdownBrief("chart", data.chart);
     populateDropdown("finish", data.finishes);
     populateDropdown("pinning", data.pinningOptions);
     populateDropdown("cams", data.cams);
@@ -141,6 +157,7 @@ window.onload = async function () {
     document.getElementById("mortiseLength").value = "0200";
     document.getElementById("numPins").value = "7";
     document.getElementById("technology").value = "H";
+    document.getElementById("chart").value = "Bloomington";
     document.getElementById("finish").value = "26";
     document.getElementById("pinning").value = "S";
     document.getElementById("cams").value = "Z02";
@@ -159,6 +176,7 @@ window.onload = async function () {
     document.getElementById("mortiseLength").addEventListener("change", generatePartNumber);
     document.getElementById("numPins").addEventListener("change", generatePartNumber);
     document.getElementById("technology").addEventListener("change", generatePartNumber);
+    document.getElementById("chart").addEventListener("change", generatePartNumber);
     document.getElementById("finish").addEventListener("change", generatePartNumber);
     document.getElementById("pinning").addEventListener("change", generatePartNumber);
     document.getElementById("cams").addEventListener("change", generatePartNumber);
@@ -169,15 +187,16 @@ function handleCylinderTypeChange() {
     const selectedOption = cylinderTypeDropdown.options[cylinderTypeDropdown.selectedIndex];
     const cylinderType = selectedOption.text.split(":")[1]?.trim(); // Extract description
 
-    // Show/hide mortise length dropdown
+    // Show/hide mortise options
     document.getElementById("mortiseLengthContainer").style.display = (cylinderType === "Mortise") ? "block" : "none";
-
-    // Show/hide mortise length dropdown
     document.getElementById("camContainer").style.display = (cylinderType === "Mortise") ? "block" : "none";
+    document.getElementById("cam-text").style.display = (cylinderType === "Mortise") ? "block" : "none";
 
-    // Show/hide numPins dropdown
+
+    // Show/hide number of pins for SFIC
     document.getElementById("numPinsContainer").style.display = (cylinderType === "SFIC") ? "block" : "none";
 
+    // Show/hide KIK options
     document.getElementById("kikTypeContainer").style.display = (cylinderType === "KIK") ? "block" : "none";
 }
 
@@ -185,48 +204,51 @@ function handleCylinderTypeChange() {
 function generatePartNumber() {
     const cylinderTypeDropdown = document.getElementById("cylinderType");
     const selectedOption = cylinderTypeDropdown.options[cylinderTypeDropdown.selectedIndex];
-    const cylinderType = selectedOption.text.split(":")[1]?.trim(); // Extract description
-
+    const cylinderType = selectedOption.text.split(":")[1]?.trim();
+    const chart = document.getElementById("chart").value;
     const cylinderTypeCode = document.getElementById("cylinderType").value;
     const mortiseLength = document.getElementById("mortiseLength").value;
     const numPins = document.getElementById("numPins").value;
     const kikType = document.getElementById("kikType").value;
-    let technology = document.getElementById("technology").value;
+    const technology = document.getElementById("technology").value;
 
+    /*
     if (cylinderType === "SFIC") { 
         technology = "N"; 
     }
+    */
 
-    const keyway = data.keyways[technology] || "UNKNOWN";
+    const keyway = data.keyways[chart+technology] || "UNKNOWN";
     const finish = document.getElementById("finish").value;
     const pinning = document.getElementById("pinning").value;
-    const cams = document.getElementById("cams").value;
+    const cam = document.getElementById("cams").value;
 
     let productListing = "";
     let partNumber = "";
 
     if (cylinderType === "SFIC") {
         productListing = "00006";
-        partNumber = `${cylinderTypeCode}${numPins}${productListing} ${technology} ${finish} ${keyway} ${pinning}`;
+        partNumber = `${cylinderTypeCode}${numPins}${productListing}${technology}-${finish}-${keyway}${pinning}`;
     } else if (cylinderType === "Mortise") {
         productListing = `${mortiseLength}`;
-        partNumber = `${cylinderTypeCode}${productListing} ${technology} ${finish} ${keyway} ${pinning} ${cams}`;
+        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
     } else if (cylinderType === "Rim") {
         productListing = "0400H";
-        partNumber = `${cylinderTypeCode}${productListing} ${technology} ${finish} ${keyway} ${pinning}` + " Y02";
+        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
     } else if (cylinderType === "KIK") {
         productListing = kikType;
-        partNumber = `${cylinderTypeCode}${productListing} ${technology} ${finish} ${keyway} ${pinning}`;
+        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
     } else {
         productListing = "";
     }
 
     if (productListing === "") {
         partNumber = "INVALID ENTRY";
+    } else if (keyway === "UNKNOWN") {
+        partNumber = "No technology exists for the selected chart."
     }
-    console.log(`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`);
-    console.log(pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`]);
 
+    /*
     let price = 0;
 
     if (technology == "H") {
@@ -237,9 +259,14 @@ function generatePartNumber() {
         price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceOrig;
     } else if (technology == "N") {
         price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceX4;
-    }
+    } */
+
+    const price = pricingData[partNumber].price;
     const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 
+
     document.getElementById("partNumberOutput").textContent = partNumber;
+    document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode;
+    document.getElementById("camOutput").textContent = "CT-"+`${cam}`;
     document.getElementById("priceOutput").textContent = formattedPrice;
 }
