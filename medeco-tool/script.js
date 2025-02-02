@@ -91,7 +91,8 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    //const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    const url = 'pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
     const response = await fetch(url);
     const csvText = await response.text();
     
@@ -261,12 +262,21 @@ function generatePartNumber() {
         price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceX4;
     } */
 
-    const price = pricingData[partNumber].price;
-    const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
 
 
     document.getElementById("partNumberOutput").textContent = partNumber;
-    document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode;
+
+    if (pricingData[partNumber] != null) {
+        const price = pricingData[partNumber].price;
+        const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+        document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode;
+        document.getElementById("priceOutput").textContent = formattedPrice;
+    } else {
+        document.getElementById("shortCodeOutput").textContent = "NULL";
+        document.getElementById("priceOutput").textContent = "NULL";
+    }
+    
     document.getElementById("camOutput").textContent = "CT-"+`${cam}`;
-    document.getElementById("priceOutput").textContent = formattedPrice;
+    
 }
