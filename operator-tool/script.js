@@ -4,7 +4,7 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const url = 'https://dmorawski.github.io/operator-tool/pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    const url = 'operator-pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
     const response = await fetch(url);
     const csvText = await response.text();
     
@@ -15,12 +15,14 @@ async function fetchPricingData() {
     });
     
     parsedData.data.forEach(row => {
+        const mfg = row['Manufacturer'];
+        const description = row['Description']
         const partNumber = row['Manufacturer Part Number'];
         const shortCode = row['Short Number'];
         const price = parseFloat(row['Price']) || 0;
 
         // Add the part number and pricing info directly to the pricingData object
-        pricingData[partNumber] = { shortCode, price };
+        pricingData[partNumber] = { mfg, description, shortCode, price };
     });
 }
 
@@ -94,13 +96,13 @@ function generateQuote() {
     const partsList = [];
     let totalPrice = 0;
 
-    function addOrUpdatePart(partNumber, shortCode, price, quantity) {
+    function addOrUpdatePart(partNumber, shortCode, mfg, description, price, quantity) {
         const existingPart = partsList.find(part => part.partNumber === partNumber);
         if (existingPart) {
             existingPart.quantity += quantity;
             existingPart.totalPrice += price * quantity;
         } else {
-            partsList.push({ partNumber, shortCode, price, quantity, totalPrice: price * quantity });
+            partsList.push({ mfg, partNumber, shortCode, description, price, quantity, totalPrice: price * quantity });
         }
     }
 
@@ -138,28 +140,28 @@ for (let i = 1; i <= operatorCount; i++) {
     const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: operatorPartNumber.startsWith("MAC-LP") ? 4688 : 2300 };
 
     // Add or update the operator part
-    addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.price, quantity);
+    addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.mfg, operatorData.description, operatorData.price, quantity);
 
     // Labor price logic
     const laborPrice = 178;
     const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
 
     // Add or update the labor part
-    addOrUpdatePart("Labor", "SC104", laborPrice, laborQuantity);
+    addOrUpdatePart("Labor", "SC104", "", "", laborPrice, laborQuantity);
 }
 
 
     // Add bollards and other parts (no filtering needed)
     [pricingData].forEach(pricingInfo => {
-        Object.entries(pricingInfo).forEach(([partNumber, { shortCode, price }]) => {
+        Object.entries(pricingInfo).forEach(([partNumber, { mfg, description, shortCode, price }]) => {
             const quantityInput = document.getElementById(partNumber);
             const quantity = quantityInput ? parseInt(quantityInput.value) || 0 : 0;
             if (quantity > 0) {
-                addOrUpdatePart(partNumber, shortCode, price, quantity);
+                addOrUpdatePart(partNumber, shortCode, mfg, description, price, quantity);
 
                 // If this part is a bollard, add labor for each bollard
                 if (partNumber.includes("CM-42-BSU")) {  // Check if partNumber is a bollard
-                    addOrUpdatePart("Labor", "SC104", 178, quantity);  // One labor unit for each bollard
+                    addOrUpdatePart("Labor", "SC104", "", "", 178, quantity);  // One labor unit for each bollard
                 }
             }
         });
@@ -182,7 +184,7 @@ for (let i = 1; i <= operatorCount; i++) {
 
     // Add header row
     const headerRow = table.insertRow();
-    ["Part Number", "Short Code", "Price", "Quantity", "Total Price"].forEach(text => {
+    ["Mfg", "Part Number", "Short Code", "Description", "Price", "Quantity", "Total Price"].forEach(text => {
         const cell = headerRow.insertCell();
         cell.innerText = text;
         cell.style.fontWeight = "bold";
@@ -191,8 +193,10 @@ for (let i = 1; i <= operatorCount; i++) {
     // Add parts to table
     partsList.forEach(item => {
         const row = table.insertRow();
+        row.insertCell().innerText = item.mfg;
         row.insertCell().innerText = item.partNumber;
         row.insertCell().innerText = item.shortCode;
+        row.insertCell().innerText = item.description;
         row.insertCell().innerText = `$${item.price.toFixed(2)}`;
         row.insertCell().innerText = item.quantity;
         row.insertCell().innerText = `$${item.totalPrice.toFixed(2)}`;
