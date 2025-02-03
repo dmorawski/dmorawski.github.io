@@ -162,6 +162,9 @@ button:hover {
     color: #555;
     white-space: pre-line;
     transition: color 0.2s ease;
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
 }
 
 /* Table header styling */
@@ -276,6 +279,7 @@ table {
     margin-top: 20px;
     table-layout: auto;
     transition: background-color 0.2s ease, color 0.2s ease;
+    overflow: hidden;
 }
 
 /* Desktop layout */
@@ -333,6 +337,12 @@ table {
 
 /* Smaller screens (less than 480px wide) */
 @media (max-width: 480px) {
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
     table th {
         font-size: 15px;
         padding: 8px;
