@@ -97,8 +97,8 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
-    //const url = 'pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
+    //const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
+    const url = 'fake-numbers.csv'
     const response = await fetch(url);
     const csvText = await response.text();
     
@@ -110,11 +110,12 @@ async function fetchPricingData() {
 
     parsedData.data.forEach(row => {
         const partNumber = row['Manufacturer Part Number'];
-        const shortCode = row['Short Number'];
+        const shortCode = row['Short Code'];
+        const description = row['Description'];
         const price = parseFloat(row['Price']) || 0;
 
         // Add the part number and pricing info directly to the pricingData object
-        pricingData[partNumber] = { shortCode, price };
+        pricingData[partNumber] = { shortCode, price, description };
     });
 }
 
@@ -278,6 +279,8 @@ function generatePartNumber() {
         const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
         document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode;
         document.getElementById("priceOutput").textContent = formattedPrice;
+        document.getElementById("descriptionOutput").textContent = pricingData[partNumber].description;
+
     } else {
         document.getElementById("shortCodeOutput").textContent = "NULL";
         document.getElementById("priceOutput").textContent = "NULL";
