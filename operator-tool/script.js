@@ -184,22 +184,46 @@ for (let i = 1; i <= operatorCount; i++) {
 
     // Add header row
     const headerRow = table.insertRow();
-    ["Mfg", "Part Number", "Short Code", "Description", "Price", "Quantity", "Total Price"].forEach(text => {
+    const headers = ["Mfg", "Part Number", "Short Code", "Description", "Price", "Quantity", "Total Price"];
+
+    headers.forEach((text, index) => {
         const cell = headerRow.insertCell();
         cell.innerText = text;
         cell.style.fontWeight = "bold";
+
+        // Add show-on-desktop class to columns you want to show only on desktop
+        // Example: hide "Mfg" and "Description" on mobile
+        if (index == 0 || index == 3) {  // Hide "Mfg" (index 0) and "Description" (index 3) on mobile
+            cell.classList.add("hide-on-mobile");
+        }
     });
+
 
     // Add parts to table
     partsList.forEach(item => {
         const row = table.insertRow();
-        row.insertCell().innerText = item.mfg;
-        row.insertCell().innerText = item.partNumber;
+
+        const mfgCell = row.insertCell();
+        mfgCell.innerText = item.mfg;
+        mfgCell.classList.add("hide-on-mobile");
+
+        const partNumberCell = row.insertCell();
+        partNumberCell.innerText = item.partNumber;
+
         row.insertCell().innerText = item.shortCode;
-        row.insertCell().innerText = item.description;
-        row.insertCell().innerText = `$${item.price.toFixed(2)}`;
+        
+        const descriptionCell = row.insertCell();
+        descriptionCell.innerText = item.description;
+        descriptionCell.classList.add("hide-on-mobile");
+
+
+        const priceCell = row.insertCell();
+        priceCell.innerText = `$${item.price.toFixed(2)}`;
         row.insertCell().innerText = item.quantity;
-        row.insertCell().innerText = `$${item.totalPrice.toFixed(2)}`;
+
+        const totalPriceCell = row.insertCell();
+        totalPriceCell.innerText = `$${item.totalPrice.toFixed(2)}`;
+
         totalPrice += item.totalPrice;
     });
 

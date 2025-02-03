@@ -311,6 +311,12 @@ table {
         border-radius: 8px;
     }
 }
+
+/* Default - show all columns */
+.hide-on-mobile {
+    display: table-cell;
+}
+
 /* Smaller screens (less than 1024px wide) */
 @media (max-width: 1023px) {
     #mainContainer {
@@ -338,24 +344,30 @@ table {
 /* Smaller screens (less than 480px wide) */
 @media (max-width: 480px) {
     table {
-        display: block;
         width: 100%;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-    table th {
-        font-size: 15px;
-        padding: 8px;
-        font-weight: bold;
-    }
-
-    table td {
-        font-size: 15px;
-        padding: 8px;
+        table-layout: fixed; /* Ensures columns take equal width */
+        margin: 0 auto; /* Centers the table */
+        border: 1px solid #333333;
+        border-collapse: collapse; /* Ensures proper cell spacing */
+        border-radius: 4px; /* Rounded corners */
+        overflow: hidden; /* Ensures rounded corners are visible */
     }
 
+    table th, table td {
+        font-size: 14px; /* Slightly smaller font size for mobile */
+        padding: 6px; /* Reduced padding */
+        word-wrap: break-word; /* Prevents text from overflowing */
+        text-align: left; /* Ensures text is aligned left */
+    }
+
+    .hide-on-mobile {
+        display: none; /* Hides columns on mobile that are marked */
+    }
+
+    /* Add some space between parts sections on mobile */
     #switches, #receivers, #bollards, #powerSupplies, #relays {
-        margin-bottom: 10px;  /* Adds space between sections on smaller screens */
+        margin-bottom: 10px;
     }
 }
+
 
