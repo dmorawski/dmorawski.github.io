@@ -14,24 +14,28 @@ const data = {
         "Minneapolis": "Minneapolis",
         "TRANS-Alarm": "TRANS-Alarm",
         "Mobile": "Mobile",
-        "Shared": "Shared"
     },
     keyways: {
-        "BloomingtonH": "43",
-        "BloomingtonP": "43",
-        "MinneapolisH": "43",
-        "MinneapolisP": "43",
-        "BloomingtonN": "DBQ",
-        "TRANS-AlarmN": "DBK",
-        "BloomingtonT": "FH",
-        "MobileT": "FK",
-        "TRANS-AlarmT": "DX",
-        "MinneapolisT": "DH",
-        "BloomingtonW": "X3",
-        "MobileW": "Z3",
-        "SharedW": "G3",
-        "BloomingtonJ": "FH",
-        "MinneapolisJ": "DH"
+        "BloomingtonH": "43", // M4
+        "BloomingtonP": "43", // M4 BiLevel
+        "MinneapolisH": "43", // M4
+        "MinneapolisP": "43", // M4 BiLevel
+        "BloomingtonN": "DBQ",// X4
+        "MinneapolisN": "DBV",// X4
+        "BloomingtonT": "FH", // M3
+        "BloomingtonJ": "FH", // M3 BiLevel
+        "MinneapolisT": "DH", // M3
+        "MinneapolisJ": "DH", // M3 BiLevel
+        "MobileT": "FK",      // M3
+        "MobileJ": "FK",      // M3 BiLevel
+        "TRANS-AlarmT": "DX", // M3
+        "TRANS-AlarmJ": "DX", // M3 BiLevel
+        "BloomingtonW": "X3", // Biaxial
+        "MobileW": "Z3",      // Biaxial
+        "BloomingtonK": "7G", // Keymark
+        "MinneapolisK": "7H", // Keymark
+        "MobileK": "7C",      // Keymark
+        "TRANS-AlarmK": "DBK" // Keymark
     },
     technologies: {
         "X4": "N",
@@ -40,7 +44,9 @@ const data = {
         "M3": "T",
         "M3 BiLevel": "J",
         "Biaxial": "W",
-        "M3 BiLevel": "J"
+        //"Patriot": "W",
+        "M3 BiLevel": "J", 
+        "Keymark": "K"
     },
     finishes: {
         "Bright Brass (US03)": "05",
