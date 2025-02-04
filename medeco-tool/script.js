@@ -87,9 +87,9 @@ const data = {
     },
     kikTypes: {
         "Schlage (A, AL, C, D, ND)": "200S1",
-        "Lazy Motion for Deadbolt": "009S4",
-        "Yale": "0503",
-        "Corbin-Russwin": "5005"
+        "Lazy Motion for Schlage Deadbolt": "009S4",
+        "Yale (5300/5400LN)": "0503",
+        "Corbin-Russwin (CK 4200)": "5005"
     }
 };
 
@@ -177,7 +177,6 @@ window.onload = async function () {
     document.getElementById("numPinsContainer").style.display = "none";
     document.getElementById("kikTypeContainer").style.display = "none";
 
-
     generatePartNumber();
     // Attach event listener to cylinder type dropdown
     document.getElementById("cylinderType").addEventListener("change", handleCylinderTypeChange);
@@ -201,7 +200,6 @@ function handleCylinderTypeChange() {
     document.getElementById("mortiseLengthContainer").style.display = (cylinderType === "Mortise") ? "block" : "none";
     document.getElementById("camContainer").style.display = (cylinderType === "Mortise") ? "block" : "none";
     document.getElementById("cam-text").style.display = (cylinderType === "Mortise") ? "block" : "none";
-
 
     // Show/hide number of pins for SFIC
     document.getElementById("numPinsContainer").style.display = (cylinderType === "SFIC") ? "block" : "none";
