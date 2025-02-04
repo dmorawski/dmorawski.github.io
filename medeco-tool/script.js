@@ -87,7 +87,9 @@ const data = {
     },
     kikTypes: {
         "Schlage (A, AL, C, D, ND)": "200S1",
-        "Lazy Motion for Deadbolt": "009S4"
+        "Lazy Motion for Deadbolt": "009S4",
+        "Yale": "0503",
+        "Corbin-Russwin": "5005"
     }
 };
 
@@ -219,13 +221,6 @@ function generatePartNumber() {
     const numPins = document.getElementById("numPins").value;
     const kikType = document.getElementById("kikType").value;
     const technology = document.getElementById("technology").value;
-
-    /*
-    if (cylinderType === "SFIC") { 
-        technology = "N"; 
-    }
-    */
-
     const keyway = data.keyways[chart+technology] || "UNKNOWN";
     const finish = document.getElementById("finish").value;
     const pinning = document.getElementById("pinning").value;
@@ -256,36 +251,19 @@ function generatePartNumber() {
         partNumber = "No technology exists for the selected chart."
     }
 
-    /*
-    let price = 0;
-
-    if (technology == "H") {
-        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceM4;
-    } else if (technology == "T") {
-        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceM3;
-    } else if (technology == "W") {
-        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceOrig;
-    } else if (technology == "N") {
-        price = pricingData[`${cylinderTypeCode}${productListing}` + '-' + `${pinning}`].priceX4;
-    } */
-
-
-
-
     document.getElementById("partNumberOutput").textContent = partNumber;
 
     if (pricingData[partNumber] != null) {
-        const price = pricingData[partNumber].price;
+        const price = pricingData[partNumber].price || 0;
         const formattedPrice = price.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-        document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode;
+        document.getElementById("shortCodeOutput").textContent = pricingData[partNumber].shortCode || "N/A";
         document.getElementById("priceOutput").textContent = formattedPrice;
-        document.getElementById("descriptionOutput").textContent = pricingData[partNumber].description;
-
+        document.getElementById("descriptionOutput").textContent = pricingData[partNumber].description || "N/A";
     } else {
-        document.getElementById("shortCodeOutput").textContent = "NULL";
-        document.getElementById("priceOutput").textContent = "NULL";
+        document.getElementById("shortCodeOutput").textContent = "N/A";
+        document.getElementById("priceOutput").textContent = "N/A";
+        document.getElementById("descriptionOutput").textContent = "N/A";
     }
     
     document.getElementById("camOutput").textContent = "CT-"+`${cam}`;
-    
 }
