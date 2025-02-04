@@ -72,5 +72,22 @@ button:hover {
     margin: auto;
     width: 50%;
     padding: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     border-style: double;
+}
+
+@media (max-width: 480px) {
+    #WIP {
+        font-weight: bold;
+        font-size: 14px;
+        color: crimson;
+        text-align: center;
+        margin: auto;
+        width: 90%;
+        padding: 10px;
+        margin-top: 15px;
+        margin-bottom: 15px;
+        border-style: double;
+    }
 }
