@@ -35,7 +35,9 @@ const data = {
         "BloomingtonK": "7G", // Keymark
         "MinneapolisK": "7H", // Keymark
         "MobileK": "7C",      // Keymark
-        "TRANS-AlarmK": "DBK" // Keymark
+        "TRANS-AlarmK": "DBK", // Keymark
+        "Bloomington-": "04",  // Original
+        "Minneapolis-": "04"  // Original
     },
     technologies: {
         "X4": "N",
@@ -46,7 +48,8 @@ const data = {
         "Biaxial": "W",
         //"Patriot": "W",
         "M3 BiLevel": "J", 
-        "Keymark": "K"
+        "Keymark": "K",
+        "Original": "-"
     },
     finishes: {
         "Bright Brass (US03)": "05",
@@ -176,6 +179,8 @@ window.onload = async function () {
     //document.getElementById("mortiseLengthContainer").style.display = "none";
     document.getElementById("numPinsContainer").style.display = "none";
     document.getElementById("kikTypeContainer").style.display = "none";
+    document.getElementById("pinningContainer").style.display = "none";
+
 
     generatePartNumber();
     // Attach event listener to cylinder type dropdown
@@ -218,10 +223,11 @@ function generatePartNumber() {
     const mortiseLength = document.getElementById("mortiseLength").value;
     const numPins = document.getElementById("numPins").value;
     const kikType = document.getElementById("kikType").value;
-    const technology = document.getElementById("technology").value;
+    let technology = document.getElementById("technology").value;
     const keyway = data.keyways[chart+technology] || "UNKNOWN";
     const finish = document.getElementById("finish").value;
-    const pinning = document.getElementById("pinning").value;
+    //const pinning = document.getElementById("pinning").value;
+    const pinning = "S";
     const cam = document.getElementById("cams").value;
 
     let productListing = "";
@@ -229,16 +235,33 @@ function generatePartNumber() {
 
     if (cylinderType === "SFIC") {
         productListing = "00006";
-        partNumber = `${cylinderTypeCode}${numPins}${productListing}${technology}-${finish}-${keyway}${pinning}`;
+        technology = "N";
+        document.getElementById("technology").value = "N";
+        partNumber = `${cylinderTypeCode}${numPins}${productListing}${technology}-${finish}-${keyway}-${pinning}`;
     } else if (cylinderType === "Mortise") {
         productListing = `${mortiseLength}`;
-        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
+        if (technology == "-") { // if Medeco original, technology is "-"
+            partNumber = `${cylinderTypeCode}${productListing}-${finish}-${keyway}-${pinning}`;
+        }
+        else {
+            partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}-${pinning}`;
+        }
     } else if (cylinderType === "Rim") {
         productListing = "0400H";
-        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
+        if (technology == "-") {
+            partNumber = `${cylinderTypeCode}${productListing}-${finish}-${keyway}-${pinning}`;
+        }
+        else {
+            partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}-${pinning}`;
+        }
     } else if (cylinderType === "KIK") {
         productListing = kikType;
-        partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}${pinning}`;
+        if (technology == "-") {
+            partNumber = `${cylinderTypeCode}${productListing}-${finish}-${keyway}-${pinning}`;
+        }
+        else {
+            partNumber = `${cylinderTypeCode}${productListing}${technology}-${finish}-${keyway}-${pinning}`;
+        }
     } else {
         productListing = "";
     }

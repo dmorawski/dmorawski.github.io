@@ -38,16 +38,16 @@
 
         <label for="finish">Finish:</label>
         <select id="finish"></select>
-
-        <label for="pinning">Pinning:</label>
-        <select id="pinning"></select>
+        
+        <div id="pinningContainer">
+            <label for="pinning">Pinning:</label>
+            <select id="pinning"></select>
+        </div>
 
         <div id="camContainer">
             <label for="cams">Cam (Mortise only):</label>
             <select id="cams"></select>
         </div>
-
-        <!-- <button type="button" onclick="generatePartNumber()">Generate Part Number</button> -->
     </form>
 
     <div id="result">
@@ -67,7 +67,7 @@
         <span id="camOutput"></span>
     </div>
     <div id="result">
-        <strong>Price:</strong>
+        <strong>MSRP:</strong>
         <span id="priceOutput"></span>
     </div>
     
