@@ -28,6 +28,10 @@ async function fetchPricingData() {
 
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
+window.addEventListener('load', () => {
+    window.scrollTo(0, 0);  // Instantly scroll to the top on page load/refresh
+});
+
 
 let operatorCount = 1;
 
