@@ -75,7 +75,7 @@ function addOperator() {
             <label for="lowForce${operatorCount}" class="bubble">Standard</label>
 
             <input type="radio" name="operatorType${operatorCount}" value="low" id="lowEnergy${operatorCount}" ${lastOperatorType === "low" ? "checked" : ""}>
-            <label for="lowEnergy${operatorCount}" class="bubble">Low Energy</label>
+            <label for="lowEnergy${operatorCount}" class="bubble">Low Force</label>
         </div>
         <div class="operator-item">
             <label>Handing/Pair:</label><br>
