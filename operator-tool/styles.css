@@ -5,6 +5,9 @@
     box-sizing: border-box;
 }
 
+html {
+    font-size: 16px;
+}
 /* General Layout and Body Styling */
 body {
     font-family: Arial, sans-serif;
@@ -14,7 +17,6 @@ body {
     margin-top: 10px;
     background-color: #121212;
     color: #ffffff;
-    font-size: 16px; /* Default font size for consistency */
     transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -27,27 +29,29 @@ h2 {
     text-align: center;
     padding: 8px;
     margin: 5px 0 5px; /* Adds some margin for spacing */
+    font-size: 1.25rem;
 }
+
+#mainContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
 
 /* Operator section on the left */
 #operatorContainer {
     background-color: #333333;
     color: #ffffff;
-    border-radius: 8px; /* rounds corner of operator container */
+    border-radius: 8px;
     padding: 10px;
-    margin: 0;
+    margin-bottom: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-
-}*/
-
-/* operator-section and part-section */
-#operatorContainer {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 8px; /* Optional: rounds the corners of each operator section */
 }
+
 
 .operator-section {
     margin-bottom: 20px;
@@ -158,84 +162,44 @@ button:hover {
     -webkit-overflow-scrolling: touch; /* Smooth scrolling for mobile */
 }
 
-/* Table header styling */
+/* Table Styling - Shared Across All Screen Sizes */
 table {
-    width: 90%;
-    margin: 20px;
-    border-collapse: separate; /* Use separate borders to allow rounded corners */
-    border-spacing: 0; /* Remove space between cells */
-    border-radius: 4px; /* Rounded corners for the table */
-    overflow: hidden; /* Ensure rounded corners are visible */
-    margin: 0 auto; /* Centers the table */
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.25rem; /* 20px */
+    table-layout: auto;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    overflow: hidden;
     border: 1px solid #333333;
+    border-radius: 4px; /* Rounded corners */
 }
 
-/* Table Header Styling */
-thead {
-    background-color: #333333; /* Dark header background */
+/* Table Header & Cell Styling */
+th, td {
+    padding: 0.625rem; /* 10px */
+    text-align: left;
+    border: 1px solid #333333;
+    color: #ffffff;
 }
 
+/* Header Styling */
 th {
-    padding: 10px;
-    text-align: left;
-    color: #ffffff;
-    background-color: #444444; /* Slightly lighter for header cells */
+    background-color: #444444; /* Darker background for headers */
 }
 
-td {
-    padding: 10px;
-    text-align: left;
-    color: #ffffff;
-}
-
-/* Hover effect */
+/* Data Cell Hover Effect */
 td:hover {
-    background-color: #555555; /* Slightly lighter on hover for interactivity */
+    background-color: #555555;
 }
 
-/* Border Styling */
-td, th {
-    border: 1px solid #333333;
-}
-thead:first-child tr:first-child th:first-child, tbody:first-child tr:first-child td:first-child {
+/* Rounded Corners (Optional - works better in some browsers) */
+thead:first-child tr:first-child th:first-child, 
+tbody:first-child tr:first-child td:first-child {
     border-radius: 4px 0 0 0;
 }
-thead:last-child tr:last-child th:first-child, tbody:last-child tr:last-child td:first-child {
+thead:last-child tr:last-child th:first-child, 
+tbody:last-child tr:last-child td:first-child {
     border-radius: 0 0 0 4px;
-}
-
-/* Form Elements Spacing */
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-form input[type="radio"] + label {
-    margin-right: 10px;
-}
-
-form input[type="number"] {
-    width: 100%;
-    padding: 8px;
-    margin: 10px 0;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-}
-
-/* Container Styling */
-.switch-container label.bubble,
-.receiver-container label.bubble,
-.bollard-container label.bubble,
-.power-supply-container label.bubble
-.relay-container label.bubble,
-.accessory-container label.bubble {
-    display: inline-block;
-    padding: 10px 15px;
-    margin: 5px;
-    border: 2px solid #ddd;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 .switch-item, .receiver-item, .bollard-item, .power-supply-item, .relay-item, .accessory-item {
@@ -243,26 +207,18 @@ form input[type="number"] {
 }
 
 /* Make the labels block-level elements to ensure input fields are on new lines */
-.operator-number-item label,
-.switch-item label,
-.receiver-item label,
-.power-supply-item label,
-.bollard-item label,
-.relay-item label,
-.accessory-item label
- {
-    display: block; /* Force label to be on a new line */
-    margin-bottom: 5px; /* Add margin for some spacing between the label and input */
+.part-section label,
+.operator-number-item label {
+    display: block;
+    margin-bottom: 5px;
 }
-
-
 
 .switch-container, .receiver-container, .bollard-container, .power-supply-container, .relay-container, .accessory-container {
     width: 100%;
     max-width: 300px;
     padding: 10px;
     margin-bottom: 20px;
-    border-radius: 50px;
+    border-radius: 8px;
 }
 
 /* Table Styling - Ensuring it's responsive */
@@ -278,13 +234,12 @@ table {
 /* Desktop layout */
 @media (min-width: 1024px) {
     #mainContainer {
-        display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
-        gap: 10px;
-        width: 100%;
     }
+}
+
 
     /* Operator section on the left */
     #operatorContainer {
@@ -312,11 +267,6 @@ table {
 
 /* Smaller screens (less than 1024px wide) */
 @media (max-width: 1023px) {
-    #mainContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
 
     #operatorContainer {
         width: 100%;
@@ -335,22 +285,15 @@ table {
 }
 
 /* Smaller screens (less than 480px wide) */
-@media (max-width: 480px) {
+@media (max-width: 750px) {
     table {
-        width: 100%;
-        table-layout: fixed; /* Ensures columns take equal width */
-        margin: 0 auto; /* Centers the table */
-        border: 1px solid #333333;
-        border-collapse: collapse; /* Ensures proper cell spacing */
-        border-radius: 4px; /* Rounded corners */
-        overflow: hidden; /* Ensures rounded corners are visible */
+        table-layout: fixed; /* Ensures columns are equal-width on small screens */
+        word-wrap: break-word; /* Prevents text overflow */
     }
 
-    table th, table td {
-        font-size: 14px; /* Slightly smaller font size for mobile */
-        padding: 6px; /* Reduced padding */
-        word-wrap: break-word; /* Prevents text from overflowing */
-        text-align: left; /* Ensures text is aligned left */
+    th, td {
+        font-size: 0.875rem; /* Smaller text on small screens */
+        padding: 0.375rem; /* Less padding on mobile */
     }
 
     .hide-on-mobile {
@@ -362,22 +305,3 @@ table {
         margin-bottom: 10px;
     }
 }
-
-
-
-
-
-
-
-/* Form Container Styling */
-/* form {
-    margin-bottom: 20px;
-    max-width: 300px;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-} */
-
-

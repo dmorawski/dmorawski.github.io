@@ -107,10 +107,6 @@ function addOperator() {
             <label for="doorWidth${operatorCount}">Enter Door Width (in inches):</label>
             <input type="number" id="doorWidth${operatorCount}" placeholder="e.g., 36" value="${lastDoorWidth}" min="1">
         </div>
-        <div class="operator-item">
-            <label for="endPlates${operatorCount}">Include End Plates:</label>
-            <input type="checkbox" id="endPlates${operatorCount}" ${lastEndPlates ? "checked" : ""}>
-        </div>
         <div class="operator-number-item">
             <label for="quantity${operatorCount}">Quantity:</label>
             <input type="number" id="quantity${operatorCount}" value="${lastQuantity}" min="1">
@@ -130,6 +126,8 @@ function addOperator() {
     }, 10);
 }
 
+
+
 function generateQuote() {
     const partsList = [];
     let totalPrice = 0;
@@ -144,54 +142,44 @@ function generateQuote() {
         }
     }
 
-// Add operators
-for (let i = 1; i <= operatorCount; i++) {
-    const optype = document.querySelector(`input[name="operatorType${i}"]:checked`)?.value;
-    const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
-    const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
-    const armType = document.querySelector(`input[name="armType${i}"]:checked`)?.value;
-    const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
-    const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
+    // Add operators (loops through all added operators)
+    for (let i = 1; i <= operatorCount; i++) {
+        const optype = document.querySelector(`input[name="operatorType${i}"]:checked`)?.value;
+        const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
+        const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
+        const armType = document.querySelector(`input[name="armType${i}"]:checked`)?.value;
+        const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
+        const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
 
-    if (!optype || !handing || !finish || !armType || !doorWidth) {
-        alert(`Please complete all fields for Operator ${i}`);
-        return;
+        if (!optype || !handing || !finish || !armType || !doorWidth) {
+            alert(`Please complete all fields for Operator ${i}`);
+            return;
+        }
+
+        const opCode = optype === "standard" ? "L" : "M";
+        const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
+        const armCode = armType === "Push" ? "1" : "2";
+        const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
+        
+        let widthCode = "-XX";
+        if (doorWidth === "72" && handing === "Pair") {
+            widthCode = "-72";
+        } else if (doorWidth === "36") {
+            widthCode = "-36";
+        }
+
+        const operatorPartNumber = `MAC-${opCode}${handingCode}${armCode}${finishCode}${widthCode}`;
+        const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: operatorPartNumber.startsWith("MAC-LP") ? 4688 : 2300 };
+
+        addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.mfg, operatorData.description, operatorData.price, quantity);
+
+        const laborPrice = 178;
+        const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
+
+        addOrUpdatePart("Labor", "SC104", "", "", laborPrice, laborQuantity);
     }
 
-    const opCode = optype === "standard" ? "L" : "M";
-    const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
-    const armCode = armType === "Push" ? "1" : "2";
-    const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
-    
-    // Default to -XX for door width
-    let widthCode = "-XX";
-
-    // If the door width is 72 and Pair is selected, set widthCode to -72
-    if (doorWidth === "72" && handing === "Pair") {
-        widthCode = "-72";
-    } else if (doorWidth === "36") {
-        widthCode = "-36";
-    }
-
-    // Build the operator part number
-    let operatorPartNumber = `MAC-${opCode}${handingCode}${armCode}${finishCode}${widthCode}`;
-
-    // Get operator data from pricingData or set default price for double door operators (MAC-LP)
-    const operatorData = pricingData[operatorPartNumber] || { shortCode: "NA", price: operatorPartNumber.startsWith("MAC-LP") ? 4688 : 2300 };
-
-    // Add or update the operator part
-    addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.mfg, operatorData.description, operatorData.price, quantity);
-
-    // Labor price logic
-    const laborPrice = 178;
-    const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
-
-    // Add or update the labor part
-    addOrUpdatePart("Labor", "SC104", "", "", laborPrice, laborQuantity);
-}
-
-
-    // Add bollards and other parts (no filtering needed)
+    // Add all parts (switches, receivers, etc.)
     [pricingData].forEach(pricingInfo => {
         Object.entries(pricingInfo).forEach(([partNumber, { mfg, description, shortCode, price }]) => {
             const quantityInput = document.getElementById(partNumber);
@@ -199,30 +187,29 @@ for (let i = 1; i <= operatorCount; i++) {
             if (quantity > 0) {
                 addOrUpdatePart(partNumber, shortCode, mfg, description, price, quantity);
 
-                // If this part is a bollard, add labor for each bollard
-                if (partNumber.includes("CM-42-BSU")) {  // Check if partNumber is a bollard
-                    addOrUpdatePart("Labor", "SC104", "", "", 178, quantity);  // One labor unit for each bollard
+                if (partNumber.includes("CM-42-BSU")) {
+                    addOrUpdatePart("Labor", "SC104", "", "", 178, quantity);
                 }
             }
         });
     });
 
-    // Sort partsList to ensure labor is last
+    // Sort to make sure labor always comes last
     partsList.sort((a, b) => (a.partNumber === "Labor" ? 1 : b.partNumber === "Labor" ? -1 : 0));
 
-    // Create table
+    // Clear previous output
     const output = document.getElementById("quoteOutput");
     output.innerHTML = "";
 
+    // Create table
     const table = document.createElement("table");
     table.setAttribute("border", "1");
     table.setAttribute("cellpadding", "5");
-    table.style.borderCollapse = "separate";  // Ensure rounded corners work
-    table.style.borderRadius = "8px";  // Round corners for the table
-    table.style.overflow = "hidden";  // Make sure the content respects the rounded corners
+    table.style.borderCollapse = "separate";
+    table.style.borderRadius = "8px";
+    table.style.overflow = "hidden";
 
-
-    // Add header row
+    // Add table header
     const headerRow = table.insertRow();
     const headers = ["Mfg", "Part Number", "Short Code", "Description", "Price", "Quantity", "Total Price"];
 
@@ -230,16 +217,12 @@ for (let i = 1; i <= operatorCount; i++) {
         const cell = headerRow.insertCell();
         cell.innerText = text;
         cell.style.fontWeight = "bold";
-
-        // Add show-on-desktop class to columns you want to show only on desktop
-        // Example: hide "Mfg" and "Description" on mobile
-        if (index == 0 || index == 3) {  // Hide "Mfg" (index 0) and "Description" (index 3) on mobile
-            cell.classList.add("hide-on-mobile");
+        if (index === 0 || index === 3) {
+            cell.classList.add("hide-on-mobile");  // Mfg and Description hidden on mobile
         }
     });
 
-
-    // Add parts to table
+    // Add table rows
     partsList.forEach(item => {
         const row = table.insertRow();
 
@@ -250,16 +233,18 @@ for (let i = 1; i <= operatorCount; i++) {
         const partNumberCell = row.insertCell();
         partNumberCell.innerText = item.partNumber;
 
-        row.insertCell().innerText = item.shortCode;
-        
+        const shortCodeCell = row.insertCell();
+        shortCodeCell.innerText = item.shortCode;
+
         const descriptionCell = row.insertCell();
         descriptionCell.innerText = item.description;
         descriptionCell.classList.add("hide-on-mobile");
 
-
         const priceCell = row.insertCell();
         priceCell.innerText = `$${item.price.toFixed(2)}`;
-        row.insertCell().innerText = item.quantity;
+
+        const quantityCell = row.insertCell();
+        quantityCell.innerText = item.quantity;
 
         const totalPriceCell = row.insertCell();
         totalPriceCell.innerText = `$${item.totalPrice.toFixed(2)}`;
@@ -267,18 +252,36 @@ for (let i = 1; i <= operatorCount; i++) {
         totalPrice += item.totalPrice;
     });
 
-    // Add total price row
-    const totalRow = table.insertRow();
-    const totalLabelCell = totalRow.insertCell();
-    totalLabelCell.colSpan = 4;
-    totalLabelCell.style.textAlign = "right";
-    totalLabelCell.style.fontWeight = "bold";
-    totalLabelCell.innerText = "Total";
+    function appendTotalRow(table, totalPrice) {
+        const totalRow = table.insertRow();
 
-    const totalPriceCell = totalRow.insertCell();
-    totalPriceCell.style.fontWeight = "bold";
-    totalPriceCell.innerText = `$${totalPrice.toFixed(2)}`;
+        // Always generate 7 columns, even if some are hidden by CSS
+        const mfgCell = totalRow.insertCell();          // Mfg (hidden on mobile)
+        mfgCell.classList.add('hide-on-mobile');
 
+        const partNumberCell = totalRow.insertCell();   // Part Number
+        partNumberCell.innerText = "";
+
+        const shortCodeCell = totalRow.insertCell();    // Short Code
+        shortCodeCell.innerText = "";
+
+        const descriptionCell = totalRow.insertCell();  // Description (hidden on mobile)
+        descriptionCell.classList.add('hide-on-mobile');
+
+        const priceCell = totalRow.insertCell();        // Price
+        priceCell.innerText = "";
+
+        // Quantity column (second-to-last) gets "Total:" text
+        const quantityCell = totalRow.insertCell();
+        quantityCell.innerText = "";
+
+        // Total Price column (last column) gets the actual total price
+        const totalPriceCell = totalRow.insertCell();
+        totalPriceCell.style.fontWeight = "bold";
+        totalPriceCell.innerText = `$${totalPrice.toFixed(2)}`;
+    }
+
+    appendTotalRow(table, totalPrice);
     output.appendChild(table);
 }
 
