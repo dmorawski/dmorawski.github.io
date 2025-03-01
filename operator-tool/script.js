@@ -283,5 +283,12 @@ function generateQuote() {
 
     appendTotalRow(table, totalPrice);
     output.appendChild(table);
+
+    // scroll to the table
+    output.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+    });
+
 }
 
