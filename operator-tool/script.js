@@ -2,6 +2,12 @@
 // This will hold pricing data once the CSV is fetched
 let pricingData = {};
 
+// Initialize pricing data when the page loads
+window.addEventListener('DOMContentLoaded', fetchPricingData);
+window.addEventListener('load', () => {
+    window.scrollTo(0, 0);  // Instantly scroll to the top on page load/refresh
+});
+
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
     const url = 'operator-pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
@@ -25,13 +31,6 @@ async function fetchPricingData() {
         pricingData[partNumber] = { mfg, description, shortCode, price };
     });
 }
-
-// Initialize pricing data when the page loads
-window.addEventListener('DOMContentLoaded', fetchPricingData);
-window.addEventListener('load', () => {
-    window.scrollTo(0, 0);  // Instantly scroll to the top on page load/refresh
-});
-
 
 let operatorCount = 1;
 
