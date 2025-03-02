@@ -76,10 +76,10 @@ html, body {
     font-weight: bold;
     font-style: italic;
     color: #002856;
-    text-shadow: 5px 5px 7px #76bc21, 
-    -5px 5px 7px #76bc21, 
-    5px -5px 7px #76bc21, 
-    -5px -5px 7px #76bc21;
+    text-shadow: 5px 5px 10px #76bc21, 
+    -5px 5px 10px #76bc21, 
+    5px -5px 10px #76bc21, 
+    -5px -5px 10px #76bc21;
     margin-bottom: 20px;
     gap: 2px;
 }
