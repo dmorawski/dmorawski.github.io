@@ -2,6 +2,28 @@
 // This will hold pricing data once the CSV is fetched
 let pricingData = {};
 
+async function fetchFileLastModifiedDate(url) {
+    try {
+        const response = await fetch(url, { method: 'HEAD' });  // Only fetch headers
+        const lastModified = response.headers.get('Last-Modified');
+        if (lastModified) {
+            const date = new Date(lastModified);
+            const formattedDate = date.toLocaleString();
+            document.getElementById('lastModifiedDisplay').innerText = `Pricing file last updated: ${formattedDate}`;
+        } else {
+            document.getElementById('lastModifiedDisplay').innerText = 'Could not retrieve file modification date.';
+        }
+    } catch (error) {
+        console.error('Failed to fetch file modification date:', error);
+        document.getElementById('lastModifiedDisplay').innerText = 'Error fetching file modification date.';
+    }
+}
+
+// Call this function when the page loads
+window.addEventListener('DOMContentLoaded', () => {
+    fetchFileLastModifiedDate('operator-pricing.csv');
+});
+
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
 window.addEventListener('load', () => {
