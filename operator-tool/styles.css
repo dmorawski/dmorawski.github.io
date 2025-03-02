@@ -29,8 +29,92 @@ h2 {
     text-align: center;
     padding: 8px;
     margin: 5px 0 5px; /* Adds some margin for spacing */
-    font-size: 1.25rem;
+    font-size: 1.125rem;
 }
+
+#helpButton {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    font-size: 1.25rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+#helpButton:hover {
+    background-color: #45a049;
+}
+
+
+/* Help Modal */
+#helpModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 400px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1001;
+    padding: 20px;
+    display: none; /* Hidden by default */
+}
+
+#helpModal h3 {
+    margin-top: 0;
+    font-size: 1.2rem;
+}
+
+#helpModal h2 {
+    text-align: left;
+    color: black;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem; 
+}
+
+
+#helpModal ol {
+    padding-left: 15px;
+}
+#helpModal ul {
+    padding-left: 15px;
+}
+#helpModal li {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+#helpModal a {
+    color: #4CAF50;
+}
+
+#closeHelp {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
 
 #mainContainer {
     display: flex;
@@ -216,8 +300,8 @@ tbody:last-child tr:last-child td:first-child {
 .switch-container, .receiver-container, .bollard-container, .power-supply-container, .relay-container, .accessory-container {
     width: 100%;
     max-width: 300px;
-    padding: 10px;
-    margin-bottom: 20px;
+    padding: 5px;
+    margin-bottom: 10px;
     border-radius: 8px;
 }
 

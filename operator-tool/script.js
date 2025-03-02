@@ -8,6 +8,23 @@ window.addEventListener('load', () => {
     window.scrollTo(0, 0);  // Instantly scroll to the top on page load/refresh
 });
 
+document.getElementById('helpButton').addEventListener('click', () => {
+    document.getElementById('helpModal').style.display = 'block';
+});
+
+document.getElementById('closeHelp').addEventListener('click', () => {
+    document.getElementById('helpModal').style.display = 'none';
+});
+
+// Optional: Close modal if clicking outside of it
+window.addEventListener('click', (event) => {
+    const modal = document.getElementById('helpModal');
+    if (event.target === modal) {
+        modal.style.display = 'none';
+    }
+});
+
+
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
     const url = 'operator-pricing.csv?' + new Date().getTime();  // Add timestamp to bypass cache
