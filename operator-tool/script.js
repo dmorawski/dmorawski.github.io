@@ -2,27 +2,25 @@
 // This will hold pricing data once the CSV is fetched
 let pricingData = {};
 
-async function fetchFileLastModifiedDate(url) {
+async function fetchLastCommitDate() {
+    const apiUrl = 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/commits?path=operator-pricing.csv&page=1&per_page=1';
+
     try {
-        const response = await fetch(url, { method: 'HEAD' });  // Only fetch headers
-        const lastModified = response.headers.get('Last-Modified');
-        if (lastModified) {
-            const date = new Date(lastModified);
-            const formattedDate = date.toLocaleString();
-            document.getElementById('lastModifiedDisplay').innerText = `Pricing file last updated: ${formattedDate}`;
+        const response = await fetch(apiUrl);
+        const commits = await response.json();
+        if (commits.length > 0) {
+            const commitDate = new Date(commits[0].commit.author.date).toLocaleString();
+            document.getElementById('lastModifiedDisplay').innerText = `Pricing file last updated: ${commitDate}`;
         } else {
-            document.getElementById('lastModifiedDisplay').innerText = 'Could not retrieve file modification date.';
+            document.getElementById('lastModifiedDisplay').innerText = 'No commit history found.';
         }
     } catch (error) {
-        console.error('Failed to fetch file modification date:', error);
-        document.getElementById('lastModifiedDisplay').innerText = 'Error fetching file modification date.';
+        document.getElementById('lastModifiedDisplay').innerText = 'Error fetching commit history.';
     }
 }
 
-// Call this function when the page loads
-window.addEventListener('DOMContentLoaded', () => {
-    fetchFileLastModifiedDate('operator-pricing.csv');
-});
+window.addEventListener('DOMContentLoaded', fetchLastCommitDate);
+
 
 // Initialize pricing data when the page loads
 window.addEventListener('DOMContentLoaded', fetchPricingData);
