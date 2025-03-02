@@ -157,6 +157,13 @@ function addOperator() {
     const operatorContainer = document.getElementById('operatorContainer');
     operatorContainer.appendChild(operatorSection);
 
+   /* operatorSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); */
+    const rect = operatorSection.getBoundingClientRect();
+    window.scrollTo({
+        top: window.scrollY + rect.top - 35,  // 10px padding for breathing room
+        behavior: 'smooth'
+    });
+
     // Get the "Add Another Operator" button
     const addOperatorBtn = document.getElementById('addOperatorBtn');
 
