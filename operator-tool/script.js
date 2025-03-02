@@ -28,21 +28,60 @@ window.addEventListener('load', () => {
     window.scrollTo(0, 0);  // Instantly scroll to the top on page load/refresh
 });
 
-document.getElementById('helpButton').addEventListener('click', () => {
-    document.getElementById('helpModal').style.display = 'block';
-});
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded fired - attaching help modal events');
 
-document.getElementById('closeHelp').addEventListener('click', () => {
-    document.getElementById('helpModal').style.display = 'none';
-});
+    const helpButton = document.getElementById('helpButton');
+    const helpModal = document.getElementById('helpModal');
+    const closeHelp = document.getElementById('closeHelp');
 
-// Optional: Close modal if clicking outside of it
-window.addEventListener('click', (event) => {
-    const modal = document.getElementById('helpModal');
-    if (event.target === modal) {
-        modal.style.display = 'none';
+    if (!helpButton || !helpModal || !closeHelp) {
+        console.error('One or more help modal elements are missing!');
+        return;
     }
+
+    // 🚀 Force hide modal on page load for safety
+    helpModal.classList.add('hidden');
+
+    function closeHelpModal() {
+        console.log('Closing help modal');
+        helpModal.classList.add('hidden');
+    }
+
+    helpButton.addEventListener('click', () => {
+        console.log('Help button clicked');
+        helpModal.classList.remove('hidden');
+    });
+
+    closeHelp.addEventListener('click', () => {
+        console.log('Close button clicked');
+        closeHelpModal();
+    });
+
+    document.addEventListener('click', (event) => {
+        if (
+            !helpModal.classList.contains('hidden') &&
+            !helpModal.querySelector('.help-content').contains(event.target) &&
+            event.target !== helpButton
+        ) {
+            console.log('Clicked outside help content');
+            closeHelpModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !helpModal.classList.contains('hidden')) {
+            console.log('Escape key pressed');
+            closeHelpModal();
+        }
+    });
+
+    console.log('helpModal classList:', helpModal.classList.value);
+    console.log('Computed display:', getComputedStyle(helpModal).display);
 });
+
+    
+
 
 
 // Fetch the pricing data from the CSV file
