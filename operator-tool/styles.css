@@ -130,7 +130,7 @@ h2 {
     color: #ffffff;
     border-radius: 8px;
     padding: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -361,7 +361,20 @@ td:hover {
     .part-section {
         padding: 10px;
     }
-    
+        #operatorContainer {
+        margin-bottom: 5px;
+    }
+    .part-section {
+        margin-bottom: 5px;
+    }
+    #switches,
+    #receivers,
+    #bollards,
+    #powerSupplies,
+    #relays,
+    #accessories {
+        margin-bottom: 5px;
+    }
 
     /* Ensure inputs fill their parent containers for parts and switches */
     .switch-item,
@@ -399,16 +412,6 @@ td:hover {
 
     .hide-on-mobile {
         display: none; /* Hides columns on mobile that are marked */
-    }
-
-    /* Add some space between parts sections on mobile */
-    #switches,
-    #receivers,
-    #bollards,
-    #powerSupplies,
-    #relays,
-    #accessories {
-        margin-bottom: 10px;
     }
 
     /* Ensure inputs stretch to full width on very small screens */
