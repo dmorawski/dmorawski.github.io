@@ -255,7 +255,6 @@ table {
     transition: background-color 0.2s ease, color 0.2s ease;
     overflow: hidden;
     border: 1px solid #333333;
-    border-radius: 4px; /* Rounded corners */
 }
 
 /* Table Header & Cell Styling */
@@ -276,16 +275,6 @@ td:hover {
     background-color: #555555;
 }
 
-/* Rounded Corners (Optional - works better in some browsers) */
-thead:first-child tr:first-child th:first-child, 
-tbody:first-child tr:first-child td:first-child {
-    border-radius: 4px 0 0 0;
-}
-thead:last-child tr:last-child th:first-child, 
-tbody:last-child tr:last-child td:first-child {
-    border-radius: 0 0 0 4px;
-}
-
 .switch-item, .receiver-item, .bollard-item, .power-supply-item, .relay-item, .accessory-item {
     margin-bottom: 15px;
 }
@@ -301,19 +290,23 @@ tbody:last-child tr:last-child td:first-child {
     width: 100%;
     max-width: 300px;
     padding: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     border-radius: 8px;
 }
 
-/* Table Styling - Ensuring it's responsive */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    table-layout: auto;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    overflow: hidden;
+.switch-container .switch-item:last-child,
+.receiver-container .receiver-item:last-child,
+.bollard-container .bollard-item:last-child,
+.power-supply-container .power-supply-item:last-child,
+.relay-container .relay-item:last-child,
+.accessory-container .accessory-item:last-child {
+    /* Example styles */
+    margin-bottom: 0px;
+    padding-bottom: 0px;
 }
+
+
+
 
 /* Desktop layout */
 @media (min-width: 1024px) {
@@ -322,9 +315,6 @@ table {
         justify-content: space-between;
         align-items: flex-start;
     }
-}
-
-
     /* Operator section on the left */
     #operatorContainer {
         width: 25%; /* 1/3 of the screen */

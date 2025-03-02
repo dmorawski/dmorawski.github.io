@@ -226,7 +226,7 @@ function generateQuote() {
     table.setAttribute("border", "1");
     table.setAttribute("cellpadding", "5");
     table.style.borderCollapse = "separate";
-    table.style.borderRadius = "8px";
+    //table.style.borderRadius = "8px";
     table.style.overflow = "hidden";
 
     // Add table header
