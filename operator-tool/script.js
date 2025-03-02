@@ -10,7 +10,7 @@ async function fetchLastCommitDate() {
         const commits = await response.json();
         if (commits.length > 0) {
             const commitDate = new Date(commits[0].commit.author.date).toLocaleString();
-            document.getElementById('lastModifiedDisplay').innerText = `Pricing file last updated: ${commitDate}`;
+            document.getElementById('lastModifiedDisplay').innerText = `Pricing data last updated: ${commitDate}`;
         } else {
             document.getElementById('lastModifiedDisplay').innerText = 'No commit history found.';
         }
