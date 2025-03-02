@@ -3,7 +3,7 @@
 let pricingData = {};
 
 async function fetchLastCommitDate() {
-    const apiUrl = 'https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/commits?path=operator-pricing.csv&page=1&per_page=1';
+    const apiUrl = 'https://api.github.com/repos/dmorawski/dmorawski.github.io/commits?path=operator-tool/operator-pricing.csv&page=1&per_page=1';
 
     try {
         const response = await fetch(apiUrl);
