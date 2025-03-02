@@ -355,7 +355,7 @@ td:hover {
         width: 100%;
         display: grid;
         grid-template-columns: 1fr;
-        gap: 10px; /* Space between parts */
+        gap: 2px; /* Space between parts */
     }
 
     .part-section {
