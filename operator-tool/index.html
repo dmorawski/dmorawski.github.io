@@ -29,49 +29,61 @@
     </div>
     <div id="mainContainer">
         <div id="operatorContainer">
-            <h2>Operators</h2>
-            <div class="operator-section" id="operatorSection1">
-                <div class="operator-item">
-                    <label>Operator Type:</label><br>
-                    <input type="radio" name="operatorType1" value="standard" id="lowForce1" checked>
-                    <label for="lowForce1" class="bubble">Standard</label>
-                    <input type="radio" name="operatorType1" value="low" id="lowEnergy1">
-                    <label for="lowEnergy1" class="bubble">Low Force</label>
-                </div>
-                <div class="operator-item">
-                    <label>Handing/Pair:</label><br>
-                    <input type="radio" name="handing1" value="LH" id="handingLH1" checked>
-                    <label for="handingLH1" class="bubble">LH</label>
-                    <input type="radio" name="handing1" value="RH" id="handingRH1">
-                    <label for="handingRH1" class="bubble">RH</label>
-                    <input type="radio" name="handing1" value="Pair" id="handingPair1">
-                    <label for="handingPair1" class="bubble">Pair</label>
-                </div>
-                <div class="operator-item">
-                    <label>Finish:</label><br>
-                    <input type="radio" name="finish1" value="Dark Bronze" id="finishBronze1"checked >
-                    <label for="finishBronze1" class="bubble">Dark Bronze</label>
-                    <input type="radio" name="finish1" value="Anodized Aluminum" id="finishAluminum1">
-                    <label for="finishAluminum1" class="bubble">Anodized Aluminum</label>
-                </div>
-                <div class="operator-item">
-                    <label>Arm Type:</label><br>
-                    <input type="radio" name="armType1" value="Push" id="armPush1" checked>
-                    <label for="armPush1" class="bubble">Push Arm / Outswing</label>
-                    <input type="radio" name="armType1" value="Pull" id="armPull1">
-                    <label for="armPull1" class="bubble">Pull Arm / Inswing</label>
-                </div>
-                <div class="operator-item">
-                    <label for="doorWidth1">Enter Door Width (in inches):</label>
-                    <input type="number" id="doorWidth1" placeholder="e.g., 36" value="36" min="1">
-                </div>
-                <div class="operator-number-item">
-                    <label for="quantity1">Quantity:</label>
-                    <input type="number" id="quantity1" value="1" min="1">
-                </div>
-            </div>
-        <button id="addOperatorBtn" onclick="addOperator()">Add Another Operator</button>
+    <h2>Operators</h2>
+    <div class="operator-section" id="operatorSection1">
+        <div class="operator-item">
+            <label>Operator Type:</label><br>
+            <input type="radio" name="operatorType1" value="standard" id="lowEnergy1" checked>
+            <label for="lowEnergy1" class="bubble">Standard</label>
+            <input type="radio" name="operatorType1" value="low" id="lowForce1">
+            <label for="lowForce1" class="bubble">Low Force</label>
         </div>
+        <div class="operator-item">
+            <label>Handing/Pair:</label><br>
+            <input type="radio" name="handing1" value="LH" id="handingLH1" checked>
+            <label for="handingLH1" class="bubble">LH</label>
+            <input type="radio" name="handing1" value="RH" id="handingRH1">
+            <label for="handingRH1" class="bubble">RH</label>
+            <input type="radio" name="handing1" value="Pair" id="handingPair1">
+            <label for="handingPair1" class="bubble">Pair</label>
+        </div>
+        <div class="operator-item">
+            <label>Finish:</label><br>
+            <input type="radio" name="finish1" value="Dark Bronze" id="finishBronze1" checked>
+            <label for="finishBronze1" class="bubble">Dark Bronze</label>
+            <input type="radio" name="finish1" value="Anodized Aluminum" id="finishAluminum1">
+            <label for="finishAluminum1" class="bubble">Anodized Aluminum</label>
+        </div>
+        <div class="operator-item">
+            <label>Arm Type:</label><br>
+            <input type="radio" name="armType1" value="Push" id="armPush1" checked onchange="toggleRevealOptions(1)">
+            <label for="armPush1" class="bubble">Push Arm / Outswing</label>
+            <input type="radio" name="armType1" value="Pull" id="armPull1" onchange="toggleRevealOptions(1)">
+            <label for="armPull1" class="bubble">Pull Arm / Inswing</label>
+        </div>
+
+        <!-- Reveal section, hidden initially -->
+        <div class="operator-item reveal-options" id="revealOptions1" style="display: block;">
+            <label>Reveal:</label><br>
+            <input type="radio" name="reveal1" value="standard" id="revealStandard1" checked>
+            <label for="revealStandard1" class="bubble">Standard</label>
+            <input type="radio" name="reveal1" value="big" id="revealBig1">
+            <label for="revealBig1" class="bubble">More than 8in</label>
+        </div>
+
+        <div class="operator-item">
+            <label for="doorWidth1">Enter Door Width (in inches):</label>
+            <input type="number" id="doorWidth1" placeholder="e.g., 36" value="36" min="1">
+        </div>
+        <div class="operator-number-item">
+            <label for="quantity1">Quantity:</label>
+            <input type="number" id="quantity1" value="1" min="1">
+        </div>
+    </div>
+
+    <button id="addOperatorBtn" onclick="addOperator()">Add Another Operator</button>
+</div>
+
         <div id="partsContainer">
             <div class="part-section" id="switches">
                 <h2>Square Switches</h2>
@@ -147,7 +159,7 @@
                 </div>
             </div>
             <div class="part-section" id="powerSupplies">
-                <h2>Power Supplies</h2>
+                <h2>Power</h2>
                 <div class="power-supply-container">
                     <div class="power-supply-item">
                         <label for="LRS-75-24">24V Power Supply:</label>
@@ -156,6 +168,10 @@
                     <div class="power-supply-item">
                         <label for="LRS-75-12">12V Power Supply:</label>
                         <input type="number" id="LRS-75-12" min="0" value="0">
+                    </div>
+                    <div class="power-supply-item">
+                        <label for="4603">Adams Rite Rectifier<a href="#" class="help-link" data-help="This is needed if using the controller's onboard power to supply lock power.">?</a>:</label>
+                    <input type="number" id="4603" min="0" value="0">
                     </div>
                 </div>
             </div>
@@ -186,6 +202,10 @@
                     <div class="accessory-item">
                         <label for="MA40011">Three Position Rocker Switch:</label>
                         <input type="number" id="MA40011" min="0" value="0">
+                    </div>
+                    <div class="accessory-item">
+                        <label for="MA-EXT-KIT">Extended Push Arm<a href="#" class="help-link" data-help="This is needed for reveals larger than 8&quot;.">?</a>:</label>
+                        <input type="number" id="MA-EXT-KIT" min="0" value="0">
                     </div>
                 </div>
             </div>

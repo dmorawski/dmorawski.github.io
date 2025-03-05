@@ -113,36 +113,26 @@ let operatorCount = 1;
 function addOperator() {
     operatorCount++;
 
-    // Get the previous operator section (last one added)
     const previousOperatorSection = document.getElementById(`operatorSection${operatorCount - 1}`);
 
-    // Helper function to get checked radio value
     const getRadioValue = (name) => {
         const checked = previousOperatorSection.querySelector(`input[name="${name}${operatorCount - 1}"]:checked`);
         return checked ? checked.value : null;
     };
 
-    // Helper function to get input value
     const getInputValue = (id) => {
         const input = previousOperatorSection.querySelector(`#${id}${operatorCount - 1}`);
         return input ? input.value : "";
     };
 
-    const getCheckboxValue = (id) => {
-        const checkbox = previousOperatorSection.querySelector(`#${id}${operatorCount - 1}`);
-        return checkbox ? checkbox.checked : false;
-    };
-
-    // Capture previous values (fall back to reasonable defaults if none selected)
     const lastOperatorType = getRadioValue('operatorType') || "standard";
     const lastHanding = getRadioValue('handing') || "RH";
     const lastFinish = getRadioValue('finish') || "Dark Bronze";
     const lastArmType = getRadioValue('armType') || "Push";
     const lastDoorWidth = getInputValue('doorWidth') || "36";
-    const lastEndPlates = getCheckboxValue('endPlates');  // true or false
     const lastQuantity = getInputValue('quantity') || "1";
+    const lastReveal = getRadioValue('reveal') || "standard";
 
-    // Create the new operator section
     const operatorSection = document.createElement('div');
     operatorSection.classList.add('operator-section');
     operatorSection.id = `operatorSection${operatorCount}`;
@@ -150,11 +140,10 @@ function addOperator() {
     operatorSection.innerHTML = `
         <div class="operator-item">
             <label>Operator Type:</label><br>
-            <input type="radio" name="operatorType${operatorCount}" value="standard" id="lowForce${operatorCount}" ${lastOperatorType === "standard" ? "checked" : ""}>
-            <label for="lowForce${operatorCount}" class="bubble">Standard</label>
-
-            <input type="radio" name="operatorType${operatorCount}" value="low" id="lowEnergy${operatorCount}" ${lastOperatorType === "low" ? "checked" : ""}>
-            <label for="lowEnergy${operatorCount}" class="bubble">Low Force</label>
+            <input type="radio" name="operatorType${operatorCount}" value="standard" id="lowEnergy${operatorCount}" ${lastOperatorType === "standard" ? "checked" : ""}>
+            <label for="lowEnergy${operatorCount}" class="bubble">Standard</label>
+            <input type="radio" name="operatorType${operatorCount}" value="low" id="lowForce${operatorCount}" ${lastOperatorType === "low" ? "checked" : ""}>
+            <label for="lowForce${operatorCount}" class="bubble">Low Force</label>
         </div>
         <div class="operator-item">
             <label>Handing/Pair:</label><br>
@@ -165,7 +154,6 @@ function addOperator() {
             <input type="radio" name="handing${operatorCount}" value="Pair" id="handingPair${operatorCount}" ${lastHanding === "Pair" ? "checked" : ""}>
             <label for="handingPair${operatorCount}" class="bubble">Pair</label>
         </div>
-
         <div class="operator-item">
             <label>Finish:</label><br>
             <input type="radio" name="finish${operatorCount}" value="Dark Bronze" id="finishBronze${operatorCount}" ${lastFinish === "Dark Bronze" ? "checked" : ""}>
@@ -173,13 +161,20 @@ function addOperator() {
             <input type="radio" name="finish${operatorCount}" value="Anodized Aluminum" id="finishAluminum${operatorCount}" ${lastFinish === "Anodized Aluminum" ? "checked" : ""}>
             <label for="finishAluminum${operatorCount}" class="bubble">Anodized Aluminum</label>
         </div>
-
         <div class="operator-item">
             <label>Arm Type:</label><br>
-            <input type="radio" name="armType${operatorCount}" value="Push" id="armPush${operatorCount}" ${lastArmType === "Push" ? "checked" : ""}>
+            <input type="radio" name="armType${operatorCount}" value="Push" id="armPush${operatorCount}" ${lastArmType === "Push" ? "checked" : ""} onchange="toggleRevealOptions(${operatorCount})">
             <label for="armPush${operatorCount}" class="bubble">Push Arm / Outswing</label>
-            <input type="radio" name="armType${operatorCount}" value="Pull" id="armPull${operatorCount}" ${lastArmType === "Pull" ? "checked" : ""}>
+            <input type="radio" name="armType${operatorCount}" value="Pull" id="armPull${operatorCount}" ${lastArmType === "Pull" ? "checked" : ""} onchange="toggleRevealOptions(${operatorCount})">
             <label for="armPull${operatorCount}" class="bubble">Pull Arm / Inswing</label>
+        </div>
+
+        <div class="operator-item reveal-options" id="revealOptions${operatorCount}" style="display: none;">
+            <label>Reveal:</label><br>
+            <input type="radio" name="reveal${operatorCount}" value="standard" id="revealStandard${operatorCount}" ${lastReveal === "standard" ? "checked" : ""}>
+            <label for="revealStandard${operatorCount}" class="bubble">Standard</label>
+            <input type="radio" name="reveal${operatorCount}" value="big" id="revealBig${operatorCount}" ${lastReveal === "big" ? "checked" : ""}>
+            <label for="revealBig${operatorCount}" class="bubble">More than 8in</label>
         </div>
 
         <div class="operator-item">
@@ -192,26 +187,21 @@ function addOperator() {
         </div>
     `;
 
-    // Append the operator section to the container
     const operatorContainer = document.getElementById('operatorContainer');
     operatorContainer.appendChild(operatorSection);
 
-   /* operatorSection.scrollIntoView({ behavior: 'smooth', block: 'start' }); */
     const rect = operatorSection.getBoundingClientRect();
     window.scrollTo({
-        top: window.scrollY + rect.top - 35,  // 10px padding for breathing room
+        top: window.scrollY + rect.top - 35,
         behavior: 'smooth'
     });
 
-    // Get the "Add Another Operator" button
     const addOperatorBtn = document.getElementById('addOperatorBtn');
-
-    // Use setTimeout to ensure the DOM is updated before moving the button
     setTimeout(() => {
-        operatorContainer.appendChild(addOperatorBtn);  // Move button to the bottom after the new operator section is added
+        operatorContainer.appendChild(addOperatorBtn);
+        toggleRevealOptions(operatorCount);  // Automatically set visibility based on default armType
     }, 10);
 }
-
 
 
 function generateQuote() {
@@ -234,6 +224,7 @@ function generateQuote() {
         const handing = document.querySelector(`input[name="handing${i}"]:checked`)?.value;
         const finish = document.querySelector(`input[name="finish${i}"]:checked`)?.value;
         const armType = document.querySelector(`input[name="armType${i}"]:checked`)?.value;
+        const reveal = document.querySelector(`input[name="reveal${i}"]:checked`)?.value;
         const doorWidth = document.getElementById(`doorWidth${i}`)?.value;
         const quantity = parseInt(document.getElementById(`quantity${i}`)?.value) || 1;
 
@@ -263,6 +254,20 @@ function generateQuote() {
         const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
 
         addOrUpdatePart("Labor", "SC104", "", "", laborPrice, laborQuantity);
+
+        if (reveal === "big" && armType === "Push") {
+            let extensionPartNumber = "";
+            if (finish === "Anodized Aluminum") {
+                extensionPartNumber = "MA-EXT-KIT-CLR";
+            } else if (finish === "Dark Bronze") {
+                extensionPartNumber = "MA-EXT-KIT-DBZ";
+            }
+
+            if (extensionPartNumber) {
+                const extensionPartData = pricingData[extensionPartNumber] || { shortCode: "NA", price: 0 };  // Default price if missing
+                addOrUpdatePart(extensionPartNumber, extensionPartData.shortCode, extensionPartData.mfg, extensionPartData.description, extensionPartData.price, quantity);
+            }
+        }
     }
 
     // Add all parts (switches, receivers, etc.)
@@ -374,7 +379,82 @@ function generateQuote() {
     output.scrollIntoView({
         behavior: 'smooth',
         block: 'start'
+    });}
+document.addEventListener('click', (event) => {
+    const helpLinks = document.querySelectorAll('.help-link');
+    let clickedOnHelp = false;
+
+    helpLinks.forEach(link => {
+        if (link.contains(event.target)) {
+            event.preventDefault();  // Prevent page jump
+            clickedOnHelp = true;
+
+            // Remove any existing tooltip
+            document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+
+            // Create new tooltip
+            const tooltip = document.createElement('div');
+            tooltip.className = 'help-tooltip';
+            tooltip.innerText = link.getAttribute('data-help');
+
+            // Apply initial styles (including wrapping behavior)
+            tooltip.style.position = 'absolute';
+            tooltip.style.backgroundColor = '#fff';
+            tooltip.style.color = '#000';
+            tooltip.style.padding = '5px 8px';
+            tooltip.style.borderRadius = '5px';
+            tooltip.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
+            tooltip.style.fontSize = '0.875rem';
+            tooltip.style.zIndex = '1000';
+            tooltip.style.maxWidth = '90vw';  // Allow it to be up to 90% of screen width
+            tooltip.style.width = 'max-content';
+            tooltip.style.overflowWrap = 'break-word';  // Force wrapping if needed
+            tooltip.style.wordBreak = 'break-word';  // Alternative for better compatibility
+            tooltip.style.lineHeight = '1.4';  // Improve readability on small screens
+
+            // Temporarily append to measure
+            document.body.appendChild(tooltip);
+
+            // Measure and position
+            const linkRect = link.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const viewportWidth = window.innerWidth;
+
+            let left = linkRect.left;
+            if (left + tooltipRect.width > viewportWidth) {
+                left = viewportWidth - tooltipRect.width - 10;  // Prevent overflow (10px padding)
+            }
+
+            // Apply final positioning
+            tooltip.style.top = `${linkRect.bottom + window.scrollY + 5}px`;
+            tooltip.style.left = `${Math.max(left, 10)}px`;  // Keep at least 10px from left edge
+
+        }
     });
 
+    // Remove tooltip if user clicks outside
+    if (!clickedOnHelp) {
+        document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+    }
+});
+
+function toggleRevealOptions(operatorIndex) {
+    const armType = document.querySelector(`input[name="armType${operatorIndex}"]:checked`)?.value;
+    const revealSection = document.getElementById(`revealOptions${operatorIndex}`);
+
+    if (revealSection) {
+        if (armType === "Push") {
+            revealSection.style.display = "block";
+        } else {
+            revealSection.style.display = "none";
+        }
+    }
 }
+
+
+
+// Run on page load for the first operator
+document.addEventListener('DOMContentLoaded', () => {
+    toggleRevealOptions(1);  // Check initial state for Operator 1
+});
 
