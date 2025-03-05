@@ -174,7 +174,7 @@ function addOperator() {
             <input type="radio" name="reveal${operatorCount}" value="standard" id="revealStandard${operatorCount}" ${lastReveal === "standard" ? "checked" : ""}>
             <label for="revealStandard${operatorCount}" class="bubble">Standard</label>
             <input type="radio" name="reveal${operatorCount}" value="big" id="revealBig${operatorCount}" ${lastReveal === "big" ? "checked" : ""}>
-            <label for="revealBig${operatorCount}" class="bubble">More than 8in</label>
+            <label for="revealBig${operatorCount}" class="bubble">Greater than 8&quot;</label>
         </div>
 
         <div class="operator-item">
