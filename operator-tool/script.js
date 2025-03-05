@@ -378,3 +378,5 @@ function generateQuote() {
 
 }
 
+
+
