@@ -251,7 +251,7 @@ function generateQuote() {
         addOrUpdatePart(operatorPartNumber, operatorData.shortCode, operatorData.mfg, operatorData.description, operatorData.price, quantity);
 
         const laborPrice = 178;
-        const laborQuantity = handing === "Pair" ? 10 * quantity : 6 * quantity;
+        const laborQuantity = handing === "Pair" ? 10 * quantity : 5 * quantity;
 
         addOrUpdatePart("Labor", "SC104", "", "", laborPrice, laborQuantity);
 
