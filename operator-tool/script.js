@@ -380,61 +380,104 @@ function generateQuote() {
         behavior: 'smooth',
         block: 'start'
     });}
-document.addEventListener('click', (event) => {
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Tooltip system initialized');
+
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
     const helpLinks = document.querySelectorAll('.help-link');
-    let clickedOnHelp = false;
 
-    helpLinks.forEach(link => {
-        if (link.contains(event.target)) {
-            event.preventDefault();  // Prevent page jump
-            clickedOnHelp = true;
+    function createTooltip(link) {
+        // Remove any existing tooltips
+        document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
 
-            // Remove any existing tooltip
-            document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+        // Create tooltip element
+        const tooltip = document.createElement('div');
+        tooltip.className = 'help-tooltip';
+        tooltip.innerText = link.getAttribute('data-help');
 
-            // Create new tooltip
-            const tooltip = document.createElement('div');
-            tooltip.className = 'help-tooltip';
-            tooltip.innerText = link.getAttribute('data-help');
+        // Apply styles
+        Object.assign(tooltip.style, {
+            position: 'absolute',
+            backgroundColor: '#fff',
+            color: '#000',
+            padding: '5px 8px',
+            borderRadius: '5px',
+            boxShadow: '0 2px 6px rgba(0,0,0,0.2)',
+            fontSize: '0.875rem',
+            zIndex: '1000',
+            maxWidth: '90vw',
+            width: 'max-content',
+            overflowWrap: 'break-word',
+            wordBreak: 'break-word',
+            lineHeight: '1.4',
+            whiteSpace: 'normal'
+        });
 
-            // Apply initial styles (including wrapping behavior)
-            tooltip.style.position = 'absolute';
-            tooltip.style.backgroundColor = '#fff';
-            tooltip.style.color = '#000';
-            tooltip.style.padding = '5px 8px';
-            tooltip.style.borderRadius = '5px';
-            tooltip.style.boxShadow = '0 2px 6px rgba(0,0,0,0.2)';
-            tooltip.style.fontSize = '0.875rem';
-            tooltip.style.zIndex = '1000';
-            tooltip.style.maxWidth = '90vw';  // Allow it to be up to 90% of screen width
-            tooltip.style.width = 'max-content';
-            tooltip.style.overflowWrap = 'break-word';  // Force wrapping if needed
-            tooltip.style.wordBreak = 'break-word';  // Alternative for better compatibility
-            tooltip.style.lineHeight = '1.4';  // Improve readability on small screens
+        document.body.appendChild(tooltip);
 
-            // Temporarily append to measure
-            document.body.appendChild(tooltip);
+        positionTooltip(link, tooltip);
+    }
 
-            // Measure and position
-            const linkRect = link.getBoundingClientRect();
-            const tooltipRect = tooltip.getBoundingClientRect();
-            const viewportWidth = window.innerWidth;
+    function positionTooltip(link, tooltip) {
+        const linkRect = link.getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
 
-            let left = linkRect.left;
-            if (left + tooltipRect.width > viewportWidth) {
-                left = viewportWidth - tooltipRect.width - 10;  // Prevent overflow (10px padding)
+        let top = linkRect.bottom + window.scrollY + 5;
+        let left = linkRect.left;
+
+        // Flip horizontally if it would overflow to the right
+        if (left + tooltipRect.width > viewportWidth) {
+            left = linkRect.right - tooltipRect.width;
+            if (left < 10) left = 10; // Ensure at least 10px from left edge
+        }
+
+        // Flip vertically if not enough space below
+        const spaceBelow = viewportHeight - linkRect.bottom;
+        if (tooltipRect.height > spaceBelow && linkRect.top > spaceBelow) {
+            top = linkRect.top + window.scrollY - tooltipRect.height - 5;
+        }
+
+        tooltip.style.left = `${left}px`;
+        tooltip.style.top = `${top}px`;
+    }
+
+    // Event Handlers
+
+    // For mobile (click/tap to show tooltip)
+    document.addEventListener('click', (event) => {
+        let clickedOnHelp = false;
+
+        helpLinks.forEach(link => {
+            if (link.contains(event.target)) {
+                event.preventDefault();
+                clickedOnHelp = true;
+
+                if (document.querySelector('.help-tooltip')) {
+                    document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+                } else {
+                    createTooltip(link);
+                }
             }
+        });
 
-            // Apply final positioning
-            tooltip.style.top = `${linkRect.bottom + window.scrollY + 5}px`;
-            tooltip.style.left = `${Math.max(left, 10)}px`;  // Keep at least 10px from left edge
-
+        if (!clickedOnHelp) {
+            document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
         }
     });
 
-    // Remove tooltip if user clicks outside
-    if (!clickedOnHelp) {
-        document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+    // For desktop (hover to show tooltip)
+    if (!isTouchDevice) {
+        helpLinks.forEach(link => {
+            link.addEventListener('mouseenter', () => createTooltip(link));
+            link.addEventListener('mouseleave', () => {
+                document.querySelectorAll('.help-tooltip').forEach(tip => tip.remove());
+            });
+        });
     }
 });
 

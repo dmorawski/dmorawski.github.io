@@ -462,7 +462,7 @@ td:hover {
     position: relative;
 }
 
-/* Hover-based tooltip for desktop only */
+/* Hover-based tooltip for desktop only 
 @media (hover: hover) {
     .help-link:hover::after {
         content: attr(data-help);
@@ -483,7 +483,7 @@ td:hover {
         overflow-wrap: break-word;
         margin-top: 5px;
     }
-}
+}*/
 
 .reveal-options {
     display: none;
