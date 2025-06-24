@@ -236,7 +236,7 @@ function generateQuote() {
         const opCode = optype === "standard" ? "L" : "M";
         // Determine handing code, reversing if Push arm is selected
         let adjustedHanding = handing;
-        if (armType === "Push") {
+        if (armType === "Pull") {
             if (handing === "LH") adjustedHanding = "RH";
             else if (handing === "RH") adjustedHanding = "LH";
             // Leave as "Pair" if that’s the selected option
