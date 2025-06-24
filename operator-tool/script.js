@@ -234,7 +234,15 @@ function generateQuote() {
         }
 
         const opCode = optype === "standard" ? "L" : "M";
-        const handingCode = handing === "LH" ? "L" : handing === "RH" ? "R" : "P";
+        // Determine handing code, reversing if Push arm is selected
+        let adjustedHanding = handing;
+        if (armType === "Push") {
+            if (handing === "LH") adjustedHanding = "RH";
+            else if (handing === "RH") adjustedHanding = "LH";
+            // Leave as "Pair" if that’s the selected option
+        }
+        const handingCode = adjustedHanding === "LH" ? "L" : adjustedHanding === "RH" ? "R" : "P";
+
         const armCode = armType === "Push" ? "1" : "2";
         const finishCode = finish === "Anodized Aluminum" ? "C" : "D";
         
