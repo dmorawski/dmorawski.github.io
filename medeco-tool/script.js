@@ -102,8 +102,8 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    //const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
-    const url = 'fake-numbers.csv'
+    const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
+    //const url = 'pricing.csv'
     const response = await fetch(url);
     const csvText = await response.text();
     
@@ -115,7 +115,7 @@ async function fetchPricingData() {
 
     parsedData.data.forEach(row => {
         const partNumber = row['Manufacturer Part Number'];
-        const shortCode = row['Short Code'];
+        const shortCode = row['Short Number'];
         const description = row['Description'];
         const price = parseFloat(row['Price']) || 0;
 
