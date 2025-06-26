@@ -102,8 +102,8 @@ let pricingData = {};
 
 // Fetch the pricing data from the CSV file
 async function fetchPricingData() {
-    const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
-    //const url = 'pricing.csv'
+    //const url = 'https://dmorawski.github.io/medeco-tool/pricing.csv?' + new Date().getTime();
+    const url = 'pricing.csv'
     const response = await fetch(url);
     const csvText = await response.text();
     
