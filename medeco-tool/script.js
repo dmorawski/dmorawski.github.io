@@ -288,3 +288,27 @@ function generatePartNumber() {
     
     document.getElementById("camOutput").textContent = "CT-"+`${cam}`;
 }
+
+async function fetchLastPricingUpdate() {
+    const apiUrl = 'https://api.github.com/repos/dmorawski/dmorawski.github.io/commits?path=medeco-tool/pricing.csv&page=1&per_page=1';
+
+    try {
+        const response = await fetch(apiUrl);
+        const commits = await response.json();
+
+        if (commits.length > 0) {
+            const commitDate = new Date(commits[0].commit.author.date).toLocaleString();
+            document.getElementById('lastPricingUpdate').innerText =
+                `Pricing data last updated: ${commitDate}`;
+        } else {
+            document.getElementById('lastPricingUpdate').innerText =
+                'No commit history found.';
+        }
+    } catch (error) {
+        document.getElementById('lastPricingUpdate').innerText =
+            'Unable to fetch pricing update date.';
+    }
+}
+
+window.addEventListener('DOMContentLoaded', fetchLastPricingUpdate);
+

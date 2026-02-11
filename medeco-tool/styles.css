@@ -105,3 +105,11 @@ button:hover {
 .pricebook-link a:hover {
     text-decoration: underline;
 }
+
+#lastPricingUpdate {
+    margin-top: 30px;
+    font-size: 0.85rem;
+    color: #aaa;
+    text-align: center;
+}
+
