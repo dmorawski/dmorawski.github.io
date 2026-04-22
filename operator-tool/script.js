@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // 🚀 Force hide modal on page load for safety
+    // Force hide modal on page load for safety
     helpModal.classList.add('hidden');
 
     function closeHelpModal() {
